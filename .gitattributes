@@ -1,0 +1,9 @@
+# The working tree stays LF on every machine. Windows checkouts were silently rewriting these to
+# CRLF, which broke text-anchored edits and left audit.js half CRLF, half LF.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.webp binary
+*.avif binary
+*.pbf binary

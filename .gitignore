@@ -1,0 +1,23 @@
+# Source artwork. The site ships the derived img/*.avif|webp, not these.
+bia.jpg
+old.jpg
+old2.jpg
+new.jpg
+topold.jpg
+topnew.jpg
+box.png
+logo.png
+
+# Screenshots and scratch captures.
+trangweb.png
+*-*-*-*-*.png
+frames/
+
+# Internal notes, not for a public repo.
+CLAUDE.md
+KENZKLEAN_ROADMAP.md
+ARCHITECTURE_SECURITY.md
+info.png
+
+.DS_Store
+Thumbs.db

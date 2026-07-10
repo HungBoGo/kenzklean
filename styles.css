@@ -1,0 +1,4000 @@
+:root {
+  --bg: #030303;
+  --panel: #111111;
+  --panel-2: #171717;
+  --line: rgba(255, 255, 255, 0.14);
+  --line-strong: rgba(255, 255, 255, 0.28);
+  /* Alternating content bands. Solid, not an alpha tint: a few percent of white over
+     near-black moves the value by ~7/255 and reads as no change at all. */
+  --band: #121212;
+  --text: #f6f4ef;
+  --muted: #a5a29b;
+  /* Kept above 4.5:1 against --bg so fine print stays legible. */
+  --fineprint: #8f8c86;
+  --white: #ffffff;
+  --green: #7ee0a1;
+  --amber: #d8b66a;
+  --red: #f08a8a;
+  --focus: #7ea8ff;
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.48);
+  --radius: 8px;
+  --tap: 44px;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/**
+ * `scroll-behavior: smooth` on the scroller fights ScrollTrigger, which sets scroll position
+ * directly when it refreshes. Anchor links get their smoothing from a click handler instead.
+ */
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 76% 10%, rgba(255, 255, 255, 0.08), transparent 26rem),
+    linear-gradient(180deg, #050505 0%, #030303 44%, #080808 100%);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  flex: none;
+}
+
+/* One family, one stroke width, so the icon set reads as a set. */
+.icon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Every interactive element gets a visible ring; nothing removes the outline. */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 60;
+  padding: 12px 18px;
+  border-radius: var(--radius);
+  background: var(--white);
+  color: #050505;
+  font-weight: 700;
+  transition: top 140ms ease;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The header is sticky and 83px tall, so an anchor target would otherwise land underneath it. */
+[id] {
+  scroll-margin-top: 100px;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 22px;
+  font-size: clamp(40px, 6.4vw, 78px);
+  line-height: 1;
+  max-width: 860px;
+}
+
+h2 {
+  margin-bottom: 14px;
+  font-size: clamp(30px, 4vw, 52px);
+  line-height: 1.06;
+}
+
+h3 {
+  margin-bottom: 0;
+  font-size: 20px;
+}
+
+.eyebrow,
+.panel-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.fineprint {
+  color: var(--fineprint);
+  font-size: 13px;
+}
+
+.fineprint a {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+/* ---------------- Header ---------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px clamp(20px, 5vw, 64px);
+  padding-top: max(18px, env(safe-area-inset-top));
+  background: rgba(3, 3, 3, 0.82);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+  transition: background 220ms ease, border-color 220ms ease;
+}
+
+/* Once the page scrolls off the banner the header needs to hold its own against the content. */
+.site-header.scrolled {
+  background: rgba(3, 3, 3, 0.95);
+  border-bottom-color: var(--line-strong);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: var(--tap);
+  min-width: 200px;
+}
+
+.brand-logo-wrap {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: #050505;
+  overflow: hidden;
+}
+
+.brand-logo {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.brand strong {
+  display: block;
+  letter-spacing: 0.34em;
+  font-size: 16px;
+}
+
+.brand small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.desktop-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tap);
+  min-height: var(--tap);
+  padding: 0 4px;
+}
+
+.desktop-nav a {
+  position: relative;
+  transition: color 260ms ease;
+}
+
+.desktop-nav a::after {
+  left: 4px;
+  right: 4px;
+  bottom: 8px;
+  background: var(--white);
+}
+
+.desktop-nav a:hover,
+.desktop-nav a:focus-visible,
+.desktop-nav a[aria-current="page"] {
+  color: var(--white);
+}
+
+/* The current page keeps its underline open instead of waiting for a hover. */
+.desktop-nav a[aria-current="page"]::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.desktop-nav a:hover::after,
+.desktop-nav a:focus-visible::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---------------- Buttons ---------------- */
+
+.primary-button,
+.secondary-button,
+.ghost-button {
+  display: inline-flex;
+  min-height: var(--tap);
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--radius);
+  padding: 0 18px;
+  border: 1px solid transparent;
+  /* "Book Now" was breaking onto two lines inside the cramped mobile header. */
+  white-space: nowrap;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, opacity 160ms ease;
+}
+
+.primary-button {
+  background: var(--white);
+  color: #050505;
+  font-weight: 700;
+}
+
+.secondary-button,
+.ghost-button {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  border-color: var(--line);
+}
+
+.ghost-button {
+  background: transparent;
+}
+
+.ghost-button:hover {
+  transform: translateY(-1px);
+  border-color: var(--line-strong);
+}
+
+/* ---------------- Button hover choreography ---------------- */
+
+/**
+ * The second copy of every label is a `::after` fed by `data-label` — see buttons.js. Pseudo
+ * content never enters `textContent` or the accessibility tree, so the label is announced once.
+ * Without the script the buttons are plain text and every rule below simply has no target.
+ */
+/**
+ * The face stretches to the button's full height on purpose. Left at its line height it sat in
+ * the middle of a 52px button, so the twin parked at `top: 100%` landed *inside* the box and a
+ * sliver of the second label showed through before anyone hovered.
+ */
+.map-pin,
+.maplibregl-ctrl button {
+  overflow: visible;
+  background-image: none;
+}
+
+.btn-face {
+  position: relative;
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  transition: transform 420ms cubic-bezier(0.22, 0.7, 0.24, 1);
+}
+
+/**
+ * The label is a <span>, so any `.some-block span { ... }` rule outbids `.btn-face` on
+ * specificity and repaints it. `.mobile-bar span` turned the Continue button's label into 12px
+ * muted grey; `.map-popup span` did the same in the map popup. Two classes, so this wins.
+ */
+.primary-button .btn-face,
+.secondary-button .btn-face,
+.ghost-button .btn-face {
+  display: grid;
+  place-items: center;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+.btn-face::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  white-space: nowrap;
+}
+
+/**
+ * Outlined buttons: white sweeps up from the bottom edge while the label rides out of the top
+ * and its dark twin arrives from below. One transform on `.btn-face` moves both copies.
+ */
+.secondary-button,
+.ghost-button {
+  overflow: hidden;
+  /* The fill interpolates black to white. Only the label moves; a swept edge fought it. */
+  transition: background-color 420ms ease, border-color 300ms ease, color 300ms ease,
+    opacity 160ms ease;
+}
+
+.secondary-button .btn-face::after,
+.ghost-button .btn-face::after {
+  top: 100%;
+  color: #050505;
+}
+
+.secondary-button:hover,
+.secondary-button:focus-visible,
+.ghost-button:hover,
+.ghost-button:focus-visible {
+  /* A white border on a white fill leaves the button floating. It follows the text instead. */
+  border-color: #050505;
+  background-color: var(--white);
+  transform: none;
+}
+
+.secondary-button:hover .btn-face,
+.secondary-button:focus-visible .btn-face,
+.ghost-button:hover .btn-face,
+.ghost-button:focus-visible .btn-face {
+  transform: translateY(-100%);
+}
+
+/**
+ * Filled buttons flip on a horizontal axis, like a coin. `::after` is the back face, pre-rotated
+ * so it lands upright; `backface-visibility` hides whichever side is turned away.
+ */
+.primary-button {
+  position: relative;
+  perspective: 460px;
+}
+
+/**
+ * The underline starts as a 6% sliver at the centre and opens outward to both edges. scaleX on
+ * a full-width bar, not an animated `width`, so it never triggers layout.
+ */
+.primary-button::after,
+.desktop-nav a::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  border-radius: 2px;
+  transform: scaleX(0.06);
+  transform-origin: center;
+  transition: transform 420ms cubic-bezier(0.22, 0.7, 0.24, 1), opacity 200ms ease;
+  opacity: 0;
+}
+
+.primary-button::after {
+  left: 18px;
+  right: 18px;
+  bottom: 10px;
+  background: #050505;
+}
+
+/* The underline hangs a fixed distance off the bottom, but the label is centred: a taller button
+   pushes the label up and away from it. Move it down by half the height gained. */
+.primary-button.large::after {
+  left: 24px;
+  right: 24px;
+  bottom: 17px;
+}
+
+.primary-button:hover::after,
+.primary-button:focus-visible::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.primary-button .btn-face {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 520ms cubic-bezier(0.3, 0.8, 0.25, 1);
+}
+
+.primary-button .btn-face::after {
+  top: 0;
+  transform: rotateX(180deg);
+  backface-visibility: hidden;
+}
+
+.primary-button:hover .btn-face,
+.primary-button:focus-visible .btn-face {
+  transform: rotateX(-180deg);
+}
+
+.primary-button:hover,
+.primary-button:focus-visible {
+  border-color: rgba(0, 0, 0, 0.55);
+}
+
+.primary-button:active,
+.secondary-button:active,
+.ghost-button:active {
+  /* Opacity, not layout, so pressing never shifts surrounding content. */
+  transform: none;
+  opacity: 0.82;
+}
+
+button:disabled,
+.primary-button:disabled,
+.secondary-button:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.icon-button {
+  flex: none;
+  padding: 0 14px;
+  color: var(--muted);
+}
+
+/**
+ * It shares .ghost-button's hover, which fills the button white — but it holds an <svg>, so
+ * buttons.js skips it and it has no .btn-face twin to flip to black. Painting it white on hover
+ * made the phone number vanish into the fill.
+ */
+.icon-button:hover,
+.icon-button:focus-visible {
+  color: #050505;
+}
+
+.large {
+  min-height: 60px;
+  padding: 0 26px;
+}
+
+.full {
+  width: 100%;
+}
+
+/* ---------------- Hero ---------------- */
+
+/**
+ * The banner and the copy share one grid cell, so the copy floats over the photographs.
+ * Below 1100px they become two stacked rows instead: text on a solid surface, where a divider
+ * running through a whole paragraph would only make it hard to read.
+ *
+ * The explicit `1fr` column is load-bearing. Without it the implicit column is `auto`, sized to
+ * the banner's max-content width — and once `max-height` caps the banner, `aspect-ratio` makes
+ * that max-content width `height x 2.082`. On a 1600x620 window the hero silently shrank to
+ * 1033px wide and the copy landed on the shoes.
+ */
+.hero-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto;
+}
+
+/**
+ * `width: 100%` is not redundant. For a grid item that carries an `aspect-ratio`, `justify-self:
+ * normal` resolves to `start`, not `stretch` — the box shrinks to the width its ratio implies
+ * from the capped height. On a 1600x620 window that left the banner 1033px wide.
+ */
+.hero-compare {
+  grid-area: 1 / 1;
+  width: 100%;
+  aspect-ratio: 1443 / 693;
+  max-height: 80vh;
+  min-height: 460px;
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+/**
+ * The pair is centred horizontally, so the divider cuts through the shoes themselves.
+ *
+ * Anchored to the bottom, not the centre. When `max-height` shortens the banner, `cover` has to
+ * crop somewhere: centred it eats the empty band under the shoes from both ends, and the copy
+ * climbs onto the toes. Anchored to the bottom it takes the whole crop off the top, where there
+ * is nothing but laces, and the band stays a constant 39% of the photo's own height.
+ */
+.hero-compare .compare-layer img {
+  object-position: center bottom;
+}
+
+.hero-copy {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 1;
+  /* The banner underneath is a drag surface. Only the buttons opt back in. */
+  pointer-events: none;
+  /**
+   * A size container, so the copy can be scaled by the banner's own height in `cqh`.
+   * Viewport units are the wrong ruler here: the banner is `min(width / 2.082, 80vh)`, so a
+   * short wide window shrinks the empty band under the shoes while `vh` says nothing changed.
+   * Reset to `normal` on mobile, where this box sizes itself from its content.
+   */
+  container-type: size;
+}
+
+/**
+ * Both layers span the whole banner, deliberately: `inset(0 calc(100% - var(--pos)) 0 0)`
+ * resolves its percentages against the element's own box, so a narrower text block would clip
+ * at the wrong place. Flexbox parks the content in the empty bottom band.
+ */
+.hero-copy-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 0 clamp(20px, 5vw, 64px) clamp(44px, 6.5cqh, 76px);
+}
+
+/* Light copy shows only over the dark "before" side; dark copy only over the white "after". */
+.hero-copy-layer--on-dark {
+  color: var(--white);
+  clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+}
+
+.hero-copy-layer--on-light {
+  color: #0a0a0a;
+  clip-path: inset(0 0 0 var(--pos));
+}
+
+/* The "before" backdrop is rgb(40,38,36), not near-black — --muted would fall to 3.3:1 on it. */
+.hero-copy-layer--on-dark .eyebrow {
+  color: #d6d3ce;
+}
+
+.hero-copy-layer--on-dark .hero-lede {
+  color: #e4e1dc;
+}
+
+.hero-copy-layer--on-light .eyebrow,
+.hero-copy-layer--on-light .hero-lede {
+  color: #3a3a3a;
+}
+
+/**
+ * The light-side twin is a <p> so the document has exactly one <h1>. It must look identical.
+ *
+ * The type is sized by `min(vw, vh)`, not by width alone. The copy lives in the empty band
+ * below the shoes — roughly the bottom 39% of the frame — and a short, wide window shrinks that
+ * band while a width-only clamp keeps the headline tall enough to climb onto the toes.
+ * 24ch keeps it to two lines, which is what actually makes it fit.
+ */
+.hero-title-echo,
+.hero-copy h1 {
+  max-width: min(24ch, calc(100% - 400px));
+  margin: 8px 0 12px;
+  font-size: clamp(24px, min(2.9cqw, 6.2cqh), 44px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+/* 46ch pushed this to three lines on a 960px banner and the copy climbed onto the toes.
+   68ch keeps it to two at every width the overlay layout is used at. */
+.hero-lede {
+  max-width: min(68ch, calc(100% - 400px));
+  margin: 0;
+  font-size: clamp(13px, min(1cqw, 2.1cqh), 16px);
+}
+
+/**
+ * Bottom-right of the banner, on the copy's baseline. The buttons are not duplicated and not
+ * clipped — duplicating them would double the tab stops and strand keyboard focus on whichever
+ * copy the divider had clipped away.
+ *
+ * They sit on a dark plate instead. Buttons that carry their own fill invert their hierarchy as
+ * the divider passes: a white primary dominates the black side and recedes on the white one,
+ * while an outlined secondary does the reverse. One background, one ranking.
+ */
+.hero-cta {
+  position: absolute;
+  right: clamp(20px, 5vw, 64px);
+  /* The guarantees strip hangs 32px up into the banner. Sat any lower the buttons crowd it, so
+     they clear their own height again — the offset is tracked to the button, not to the banner. */
+  bottom: clamp(74px, 10cqh, 108px);
+  z-index: 2;
+  display: flex;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+/* No plate behind them, so each needs a fill of its own: the divider sweeps a white background
+   under them and a `rgba(255,255,255,0.04)` outline button would vanish into it. */
+.hero-cta .secondary-button {
+  background-color: #0d0d0d;
+  border-color: rgba(255, 255, 255, 0.45);
+  color: var(--white);
+}
+
+/* Same specificity as `.secondary-button:hover`, but later in the file — so the rule above was
+   winning on hover too, and the fill never crossfaded. */
+.hero-cta .secondary-button:hover,
+.hero-cta .secondary-button:focus-visible {
+  background-color: var(--white);
+  border-color: #050505;
+}
+
+.hero-cta .primary-button {
+  border-color: rgba(0, 0, 0, 0.32);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* The pills move to the top corners, which the centred shoes leave empty. */
+.hero-compare .compare-label {
+  top: 16px;
+  bottom: auto;
+}
+
+/* ---------------- Quote section ---------------- */
+
+.quote-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  /* stretch, not start: whichever column is taller pulls the other down to meet it. */
+  align-items: stretch;
+}
+
+.quick-book {
+  display: grid;
+  align-content: space-between;
+  gap: 22px;
+  padding: 26px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)), #0b0b0b;
+}
+
+/* In the old hero bar these fields got 122px each and clipped their own option text. */
+.quick-grid {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.4fr) 96px minmax(180px, 1.4fr);
+  gap: 16px;
+  align-items: end;
+}
+
+/* A grid item's automatic minimum is its min-content, and a <select>'s min-content is its widest
+   option. Left alone, "Basic Clean — $49" pushed the whole quote panel 15px past a 320px screen. */
+.quote-layout > *,
+.quick-grid > label,
+.quick-grid select,
+.quick-grid input {
+  min-width: 0;
+}
+
+.quick-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.quick-total {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.quick-total strong {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.quick-note {
+  margin: 0;
+  color: var(--fineprint);
+  font-size: 12px;
+}
+
+/* Three equal rows against a stretched form: the two columns finish on the same line. */
+.quote-stats {
+  display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+
+.quote-stats div {
+  display: grid;
+  align-content: center;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.quote-stats dt {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  /* The roll swaps digits every frame; proportional figures would jitter the whole card. */
+  font-variant-numeric: tabular-nums;
+}
+
+.quote-stats dd {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+
+/* ---------------- Listbox ---------------- */
+
+/**
+ * A `<select>` popup is drawn by the operating system: unstyleable, unanimatable, and white.
+ * select.js builds this on top of it and keeps the native element as the source of truth.
+ */
+.listbox {
+  position: relative;
+}
+
+.listbox-native {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.listbox-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  text-align: left;
+}
+
+.listbox-button:hover {
+  border-color: var(--line-strong);
+}
+
+.listbox-button[aria-expanded="true"] {
+  border-color: var(--white);
+}
+
+.listbox-value {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.listbox-caret {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 260ms cubic-bezier(0.22, 0.7, 0.24, 1);
+}
+
+.listbox-button[aria-expanded="true"] .listbox-caret {
+  transform: rotate(180deg);
+}
+
+.listbox-list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 25;
+  max-height: 260px;
+  margin: 0;
+  padding: 6px;
+  overflow-y: auto;
+  list-style: none;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #0e0e0e;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  transform-origin: top center;
+}
+
+.listbox-list[hidden] {
+  display: none;
+}
+
+.listbox-option {
+  padding: 11px 12px;
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.listbox-option.is-active {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+}
+
+.listbox-option.is-selected {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.listbox-option.is-selected::after {
+  content: "✓";
+  float: right;
+  color: var(--green);
+}
+
+/* ---------------- Form controls ---------------- */
+
+label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.optional {
+  color: var(--fineprint);
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  outline: none;
+}
+
+textarea {
+  min-height: 112px;
+  padding-top: 12px;
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--white);
+}
+
+input[aria-invalid="true"] {
+  border-color: var(--red);
+}
+
+select option {
+  color: #111;
+}
+
+.field-error {
+  color: var(--red);
+  font-size: 12px;
+  min-height: 1em;
+}
+
+/* ---------------- Sections ---------------- */
+
+.content-section {
+  padding: 80px clamp(20px, 5vw, 64px);
+}
+
+/**
+ * Content bands alternate so neighbouring sections read as separate blocks.
+ * nth-of-type counts every <section> in <main>, and the hero is 1, so "How it works" lands
+ * on the lighter band. Inserting or removing a section flips the whole rhythm below it.
+ * The hero paints its own image and opts out.
+ */
+main > section:nth-of-type(even):not(.hero-section) {
+  background: var(--band);
+}
+
+.section-heading {
+  display: grid;
+  gap: 4px;
+  max-width: 720px;
+  margin-bottom: 28px;
+}
+
+.section-heading p {
+  color: var(--muted);
+}
+
+.step-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.process-grid li {
+  position: relative;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025));
+  transition: transform 220ms ease, border-color 220ms ease;
+}
+
+.process-grid li:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-strong);
+}
+
+/**
+ * Threads the five steps into one flow: a dashed line leaving one badge and an arrowhead landing
+ * on the next. It runs at the badges' own centre line — 22px of padding plus half of the 48px
+ * badge — so the eye reads icon → icon rather than card → card.
+ *
+ * The line crosses the following card, whose background would paint over it: hence the z-index,
+ * and hence `li:hover` lifting into the same layer rather than sliding under its own arrow.
+ *
+ * --line-scale defaults to 1, so the thread is whole without JavaScript; GSAP draws it in.
+ */
+.process-grid {
+  --step-gap: 18px;
+}
+
+.process-grid li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 46px;
+  /* Clears its own badge: 22px padding + 48px badge + 10px of air. */
+  left: 80px;
+  /* ...and stops 10px short of the next one. */
+  width: calc(100% - 80px + var(--step-gap) + 12px);
+  border-top: 1px dashed var(--line-strong);
+  /* Clipped rather than scaled: scaleX stretched the dashes as the line drew itself. */
+  clip-path: inset(0 calc((1 - var(--line-scale, 1)) * 100%) 0 0);
+}
+
+.process-grid li:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 46px;
+  left: calc(100% + var(--step-gap) + 12px);
+  width: 7px;
+  height: 7px;
+  /* The tip of a rotated corner sits at the box's right-hand middle. Pull it onto the line's end. */
+  margin: -4px 0 0 -7px;
+  border-top: 1px solid var(--line-strong);
+  border-right: 1px solid var(--line-strong);
+  transform: rotate(45deg);
+  opacity: var(--line-scale, 1);
+}
+
+/* transform: translateY() makes a stacking context, which would bury the thread under the next
+   card. Lift the whole card, thread included. */
+.process-grid li:hover {
+  z-index: 3;
+}
+
+.process-grid .step-icon {
+  margin-bottom: 18px;
+}
+
+.step-num {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--fineprint);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.process-grid strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.process-grid p {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+/* ---------------- Guarantee badges ---------------- */
+
+/**
+ * `margin-top: -32px` is one third of the 96px badge, so a third overhangs the banner above and
+ * two thirds sit in this section. The section drops its own top padding; the badge row supplies
+ * the rhythm instead.
+ */
+.process-section {
+  padding-top: 0;
+}
+
+.guarantees {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: -32px 0 clamp(48px, 5vw, 72px);
+  padding: 0;
+  list-style: none;
+}
+
+.guarantees li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 96px;
+  padding: 18px 20px;
+  border: 1px solid var(--line-strong);
+  border-radius: 16px;
+  /* Opaque: the top third crosses the banner, which is white on the "after" side. */
+  background: linear-gradient(150deg, #191919 0%, #0c0c0c 62%);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  transition: transform 240ms ease, border-color 240ms ease;
+}
+
+/* A hairline of light along the top edge, brightest where the icon sits. */
+.guarantees li::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.06) 55%, transparent);
+}
+
+.guarantees li:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.62);
+}
+
+/**
+ * The gloss. A narrow diagonal band of light crosses the card once per hover. It starts parked
+ * off the left edge with no transition, so leaving the card snaps it back invisibly rather than
+ * sweeping it home backwards.
+ */
+.guarantees li::after {
+  content: "";
+  position: absolute;
+  inset: -40% -10%;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.1) 46%,
+    rgba(255, 255, 255, 0.34) 50%,
+    rgba(255, 255, 255, 0.1) 54%,
+    transparent 60%
+  );
+  transform: translateX(-125%);
+}
+
+.guarantees li:hover::after {
+  transform: translateX(125%);
+  transition: transform 900ms cubic-bezier(0.25, 0.6, 0.25, 1);
+}
+
+.guarantee-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+  color: var(--white);
+}
+
+.guarantee-icon .icon {
+  width: 22px;
+  height: 22px;
+}
+
+.guarantee-text {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.guarantee-text strong {
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.guarantee-text > span {
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+
+/* ---------------- Service cards ---------------- */
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.service-card {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  min-height: 300px;
+  padding: 18px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025));
+}
+
+.service-card.featured {
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.service-card .price {
+  display: block;
+  margin-top: 8px;
+  font-size: 36px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.price-unit {
+  display: block;
+  margin-top: 4px;
+  color: var(--fineprint);
+  font-size: 12px;
+}
+
+.service-card ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.service-card p {
+  margin: 0;
+  color: var(--muted);
+  min-height: 44px;
+}
+
+.service-foot {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.service-foot .secondary-button {
+  width: 100%;
+}
+
+.badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #070707;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tag {
+  display: inline-block;
+  padding: 3px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ---------------- Why KENZ KLEAN ---------------- */
+
+/* ---------------- Extras + turnaround (progressive disclosure) ---------------- */
+
+.pricing-disclosure {
+  margin-top: 32px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.pricing-disclosure summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  min-height: var(--tap);
+  padding: 16px 20px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.pricing-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+/* A caret that reads as "there is more", and rotates to say "this is open". */
+.pricing-disclosure summary::after {
+  content: "";
+  order: 3;
+  width: 9px;
+  height: 9px;
+  margin-left: auto;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 200ms ease;
+}
+
+.pricing-disclosure[open] summary::after {
+  transform: rotate(-135deg) translate(-2px, -2px);
+}
+
+.summary-hint {
+  color: var(--fineprint);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.pricing-detail {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+  padding: 8px 20px 24px;
+  border-top: 1px solid var(--line);
+}
+
+.pricing-block h3 {
+  margin: 20px 0 4px;
+  font-size: 20px;
+}
+
+.pricing-block .fineprint {
+  margin: 0 0 16px;
+}
+
+.extras-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.extra-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 16px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.extra-name {
+  font-weight: 700;
+}
+
+.extra-price {
+  font-size: 20px;
+  font-weight: 800;
+  text-align: right;
+}
+
+.extra-note {
+  grid-column: 1 / -1;
+  color: var(--green);
+  font-size: 12px;
+}
+
+.turnaround-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.turnaround-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.turnaround-window {
+  font-weight: 700;
+}
+
+.turnaround-price {
+  text-align: right;
+  font-weight: 700;
+}
+
+.turnaround-note {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---------------- Drop-off box ---------------- */
+
+.box-panel {
+  display: grid;
+  grid-template-columns: minmax(200px, 300px) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  margin-bottom: 44px;
+  padding: clamp(24px, 3vw, 40px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: radial-gradient(120% 100% at 12% 50%, rgba(255, 255, 255, 0.07), transparent 62%), #0b0b0b;
+}
+
+.box-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* The PNG is cut out; a soft pool under it keeps it from floating. */
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.8));
+}
+
+.box-copy h3 {
+  margin: 8px 0 12px;
+  font-size: clamp(22px, 2.2vw, 30px);
+}
+
+.box-copy > p {
+  max-width: 52ch;
+  margin: 0 0 22px;
+  color: var(--muted);
+}
+
+.box-facts {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.box-facts li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.box-facts .icon {
+  width: 20px;
+  height: 20px;
+  color: var(--muted);
+}
+
+
+/* ---------------- Drop-off map ---------------- */
+
+.spots-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+  gap: clamp(18px, 2.4vw, 32px);
+  align-items: stretch;
+}
+
+.spots-map {
+  position: relative;
+  min-height: 560px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #0a0a0a;
+}
+
+/**
+ * Two classes, deliberately. maplibre-gl.css is injected at runtime, so it lands last in the
+ * cascade: its `.maplibregl-map { position: relative }` ties on specificity and wins. The
+ * container then collapsed to `height: 0` with `overflow: hidden`, which clipped away every
+ * marker — they stayed in the DOM, visible to a test, and unclickable to a person.
+ */
+.spots-map .spots-map-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* Fades in only once MapLibre reports `load`, so the visitor never sees a half-drawn map. */
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.spots-map.map-ready .spots-map-canvas {
+  opacity: 1;
+}
+
+/* `display: grid` beats the user-agent rule for [hidden]. Left unguarded this invisible panel
+   covers the whole map and swallows every click on a pin. */
+.spots-map-fallback[hidden] {
+  display: none;
+}
+
+.spots-map-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  margin: 0;
+  padding: 32px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* No map: the list takes the whole width rather than leaving a hole. */
+.map-unavailable {
+  min-height: 0;
+}
+
+.spots-side {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.spots-side .spot-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  min-height: 0;
+  max-height: 470px;
+  overflow-y: auto;
+  padding-right: 6px;
+  scrollbar-color: rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.06);
+  scrollbar-width: thin;
+}
+
+.spot-card {
+  cursor: pointer;
+  transition: border-color 200ms ease, background 200ms ease;
+}
+
+.spot-card.is-active {
+  border-color: var(--white);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+/* ---------------- Pins ---------------- */
+
+.map-pin {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  transition: transform 200ms ease, background 200ms ease;
+}
+
+.map-pin-dot {
+  width: 13px;
+  height: 13px;
+  border: 2px solid #0a0a0a;
+  border-radius: 50%;
+  background: var(--white);
+  transition: width 200ms ease, height 200ms ease;
+}
+
+.map-pin--main .map-pin-dot {
+  background: var(--green);
+}
+
+.map-pin:hover,
+.map-pin:focus-visible {
+  transform: scale(1.12);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.map-pin.is-active {
+  background: rgba(255, 255, 255, 0.42);
+  transform: scale(1.2);
+}
+
+.map-pin.is-active .map-pin-dot {
+  width: 16px;
+  height: 16px;
+}
+
+/* MapLibre paints its own chrome; drag it onto our palette. */
+.maplibregl-ctrl-group {
+  border: 1px solid var(--line-strong) !important;
+  border-radius: 10px !important;
+  background: rgba(12, 12, 12, 0.9) !important;
+  box-shadow: none !important;
+}
+
+.maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--line) !important;
+}
+
+.maplibregl-ctrl-group button span {
+  filter: invert(1);
+}
+
+.maplibregl-ctrl-attrib {
+  border-radius: 8px 0 0 0 !important;
+  background: rgba(8, 8, 8, 0.82) !important;
+  color: var(--fineprint) !important;
+  font-size: 11px !important;
+}
+
+.maplibregl-ctrl-attrib a {
+  color: var(--muted) !important;
+}
+
+.map-popup .maplibregl-popup-content {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: #0d0d0d;
+  color: var(--text);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.map-popup .maplibregl-popup-tip {
+  border-top-color: #0d0d0d !important;
+  border-bottom-color: #0d0d0d !important;
+}
+
+.map-popup span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.map-popup .secondary-button {
+  margin-top: 8px;
+  min-height: var(--tap);
+  font-size: 13px;
+}
+
+@media (max-width: 1100px) {
+  .spots-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .spots-map {
+    min-height: 380px;
+  }
+
+  .spots-side .spot-list {
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+}
+
+/* ---------------- Drop-off spots ---------------- */
+
+.search-row {
+  display: flex;
+  gap: 10px;
+  margin: 0 0 10px;
+  max-width: 520px;
+}
+
+.search-status {
+  margin: 0 0 20px;
+  color: var(--fineprint);
+  font-size: 13px;
+}
+
+.spot-list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.spot-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025));
+}
+
+.spot-card[hidden] {
+  display: none;
+}
+
+.spot-body strong,
+.spot-body span,
+.spot-body small {
+  display: block;
+}
+
+.spot-body .tag {
+  display: inline-block;
+  margin: 6px 0;
+}
+
+.spot-venue {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.spot-body span,
+.spot-body small {
+  color: var(--muted);
+}
+
+.spot-actions {
+  display: grid;
+  gap: 8px;
+  align-content: center;
+}
+
+.spot-actions a {
+  white-space: nowrap;
+}
+
+/* ---------------- Transformation + FAQ ---------------- */
+
+/* ---------------- Before/after comparison slider ---------------- */
+
+/**
+ * `--pos` is the divider, as a percentage from the left edge. Everything — both photographs,
+ * both copies of the overlay text, the handle — clips or positions against this one value,
+ * which is why the white-to-black text flip lands exactly on the line.
+ *
+ * Set to 50% inline on the element, so with no JavaScript this is a static split view.
+ */
+/**
+ * Full-bleed banner. The negative inline margin cancels the section's own horizontal padding
+ * exactly — `width: 100vw` would include the scrollbar gutter and push the page sideways.
+ */
+.compare {
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  user-select: none;
+  cursor: ew-resize;
+}
+
+.compare-layer,
+.compare-layer img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.compare-layer img {
+  object-fit: cover;
+  object-position: 18% center;
+  pointer-events: none;
+}
+
+/* The "after" photograph occupies everything to the right of the divider. */
+.compare-layer--after {
+  clip-path: inset(0 0 0 var(--pos));
+}
+
+/* White copy shows only over the dark "before" side; black copy only over the white "after". */
+.compare-label {
+  position: absolute;
+  bottom: 16px;
+  padding: 6px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.compare-label--before {
+  left: 16px;
+}
+
+/* Sits on the white sweep once revealed, so it inverts. */
+.compare-label--after {
+  right: 16px;
+  border-color: rgba(0, 0, 0, 0.24);
+  background: rgba(255, 255, 255, 0.78);
+  color: #0a0a0a;
+}
+
+/**
+ * The handle is a real <button role="slider">. It is the only touch target: dragging the photo
+ * itself with a finger would swallow the vertical swipe used to scroll the page.
+ */
+.compare-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  margin-left: calc(var(--tap) / -2);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+/* The visible divider line, drawn on the button so it cannot drift from the clip edge. */
+.compare-handle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: var(--white);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.45);
+}
+
+.compare-grip {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 50%;
+  background: var(--white);
+  color: #0a0a0a;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+  transition: transform 160ms ease;
+}
+
+.compare-handle:hover .compare-grip,
+.compare-handle:focus-visible .compare-grip {
+  transform: scale(1.08);
+}
+
+.compare.dragging {
+  cursor: grabbing;
+}
+
+.compare.dragging .compare-grip {
+  transform: scale(0.94);
+}
+
+.compare-grip svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/**
+ * Below 900px the hero stops overlapping. The source frame is 2.3:1, which on a phone would be
+ * a 160px letterbox, so the banner crops to 4:3 and the copy drops onto solid dark underneath.
+ * A divider slicing a whole paragraph in half looks clever and reads badly.
+ */
+/* Raised from 900px: the overlay needs room for a headline, a paragraph and two buttons on one
+   baseline. Below this the copy and the buttons drop under the banner instead of colliding. */
+@media (max-width: 1100px) {
+  .hero-compare {
+    aspect-ratio: 4 / 3;
+    max-height: none;
+    min-height: 0;
+  }
+
+  .hero-copy {
+    grid-area: auto;
+    grid-row: 2;
+  }
+
+
+
+  /* Content-sized again, so it must not contain its own height. */
+  .hero-copy {
+    container-type: normal;
+  }
+
+  .hero-copy-layer {
+    position: static;
+    padding: 32px clamp(16px, 5vw, 40px) 0;
+    clip-path: none;
+  }
+
+  /* `calc(100% - 400px)` reserved room for the buttons beside the copy. Stacked there are no
+     buttons beside it, and on a 358px column that calc goes negative — one word per line. */
+  .hero-title-echo,
+  .hero-copy h1,
+  .hero-lede {
+    max-width: none;
+  }
+
+  .hero-title-echo,
+  .hero-copy h1 {
+    font-size: clamp(30px, 7.4vw, 44px);
+  }
+
+  .hero-lede {
+    font-size: 15px;
+  }
+
+  /* Out of the banner and back into the flow, below the copy. No plate: there is no photo
+     underneath it to sit on. */
+  .hero-cta {
+    position: static;
+    display: grid;
+    gap: 12px;
+    padding: 24px clamp(16px, 5vw, 40px) 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+
+  /* Primary first once they are stacked: the eye lands on the action, not the alternative. */
+  .hero-cta .primary-button {
+    order: -1;
+  }
+
+  .hero-compare .compare-label {
+    top: auto;
+    bottom: 16px;
+  }
+
+  /* One copy is enough once it is no longer sitting on two different backgrounds. */
+  .hero-copy-layer--on-light {
+    display: none;
+  }
+
+  .hero-title-echo,
+  .hero-copy h1 {
+    max-width: none;
+  }
+}
+
+.faq-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr);
+  gap: clamp(20px, 3vw, 40px);
+  /* stretch, so the card's top and bottom edges meet the question list exactly */
+  align-items: stretch;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: start;
+  gap: 12px;
+}
+
+.faq-contact {
+  display: flex;
+  flex-direction: column;
+  padding: 26px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)), #0b0b0b;
+}
+
+.faq-contact h3 {
+  margin: 8px 0 12px;
+  font-size: 26px;
+}
+
+.faq-contact > p {
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.faq-contact-list {
+  display: grid;
+  gap: 14px;
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+
+.faq-contact-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.faq-contact-list .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.faq-contact-list a {
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.faq-contact-list a:hover {
+  text-decoration: underline;
+}
+
+/* Pins the button to the bottom edge, which is what makes the two columns line up. */
+.faq-contact .secondary-button {
+  margin-top: auto;
+}
+
+.faq-grid details {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025));
+}
+
+.faq-grid summary,
+.pricing-disclosure summary {
+  /* The marker is a caret we draw; the native triangle would sit outside our type. */
+  list-style: none;
+}
+
+.faq-grid summary::-webkit-details-marker,
+.pricing-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-grid summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: var(--tap);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.faq-grid summary::after {
+  content: "";
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 300ms cubic-bezier(0.22, 0.7, 0.24, 1);
+}
+
+.faq-grid details[open] summary::after {
+  transform: rotate(-135deg) translate(-2px, -2px);
+}
+
+.faq-grid p {
+  margin: 12px 0 0;
+  color: var(--muted);
+}
+
+.faq-more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+}
+
+.faq-more p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* ---------------- Contact page ---------------- */
+
+.contact-shell {
+  padding: clamp(32px, 5vw, 72px) clamp(20px, 5vw, 64px) 0;
+}
+
+.contact-intro {
+  max-width: 720px;
+  margin-bottom: 40px;
+}
+
+.contact-intro h1 {
+  margin: 10px 0 14px;
+  font-size: clamp(34px, 5vw, 60px);
+}
+
+.contact-intro p {
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.contact-card {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.022));
+}
+
+.contact-card .step-icon {
+  margin-bottom: 10px;
+}
+
+.contact-card strong {
+  font-size: 18px;
+}
+
+.contact-value {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+/* Standalone controls, not links inside a sentence, so they carry the full tap target. */
+a.contact-value {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.contact-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.contact-card .secondary-button {
+  margin-top: 8px;
+}
+
+.hours-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hours-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.faq-full {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* ---------------- Booking ---------------- */
+
+.booking-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+  gap: 28px;
+  align-items: start;
+  padding: clamp(28px, 4vw, 56px) clamp(20px, 5vw, 64px) 80px;
+}
+
+/**
+ * A grid item's automatic minimum size is its min-content width, so the horizontally
+ * scrolling stepper inside was widening the whole track and pushing the page sideways
+ * on a 375px screen. min-width: 0 lets the track shrink and the stepper scroll on its own.
+ */
+.booking-main {
+  min-width: 0;
+}
+
+.stepper {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 28px;
+  padding: 0 0 6px;
+  overflow-x: auto;
+  list-style: none;
+  scrollbar-width: none;
+}
+
+.stepper::-webkit-scrollbar {
+  display: none;
+}
+
+/* display:flex would otherwise beat the user-agent rule for [hidden]. */
+.stepper[hidden] {
+  display: none;
+}
+
+.stepper li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.stepper li span {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.stepper li.current {
+  border-color: var(--white);
+  color: var(--text);
+}
+
+.stepper li.current span {
+  background: var(--white);
+  color: #060606;
+}
+
+.stepper li.complete {
+  color: var(--text);
+}
+
+.stepper li.complete span {
+  background: var(--green);
+  color: #052611;
+}
+
+.step-panel[hidden] {
+  display: none;
+}
+
+.step-panel h1 {
+  margin: 8px 0 12px;
+  font-size: clamp(30px, 4vw, 46px);
+}
+
+.step-intro {
+  max-width: 620px;
+  color: var(--muted);
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  margin: 24px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.choice-card {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.choice-card:hover {
+  border-color: var(--line-strong);
+}
+
+.choice-card.selected {
+  border-color: var(--white);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.choice-card.included,
+.choice-card.disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.choice-card input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+/* The label is the control, so the ring has to follow the hidden input's focus. */
+.choice-card:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.choice-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.choice-head strong {
+  font-size: 17px;
+}
+
+.choice-price {
+  font-size: 20px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.choice-body,
+.choice-meta {
+  color: var(--muted);
+}
+
+.choice-meta {
+  font-size: 12px;
+}
+
+.choice-includes {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.pairs-field {
+  max-width: 200px;
+  margin-top: 28px;
+}
+
+/**
+ * The stamp is ~60px tall once it is rotated, and these cards are 140px. There is no size at which
+ * it can lie across the middle and still leave the drop-off address legible — the one line a
+ * customer has to read off a card they have just chosen.
+ *
+ * So the bottom of every card in these two grids carries a reserved strip, selected or not. Held
+ * constant, nothing reflows at the moment of choosing; the stamp lands in the strip, clips the tail
+ * of the opening-hours line, and leaves the name and the address alone.
+ */
+.spot-choices .choice-card,
+.extras-choices .choice-card {
+  padding-bottom: clamp(44px, 3.4vw, 48px);
+}
+
+/**
+ * A stamp, not a caption.
+ *
+ * Pinned to the top-right corner this label ran into the "Main store" tag on one card and into the
+ * wrapping heading on the next. Rotated, ruled and laid over the card it reads as a mark left on
+ * the card rather than one more line of copy on it.
+ *
+ * It sits low and right, not dead centre: centred, it struck straight through the drop-off address
+ * — the one line a customer actually has to read off a selected card. Down here it lands on the
+ * opening-hours line, which repeats what the venue's own door already says.
+ *
+ * `pointer-events: none` because the whole card is a <label>: the stamp must not swallow the click
+ * that lands on it.
+ */
+.extras-choices .choice-card.selected::after,
+.spot-choices .choice-card.selected::after {
+  content: "Selected";
+  position: absolute;
+  right: clamp(12px, 1.6vw, 18px);
+  /* Rotation pushes the corners past the box: at -9deg the bottom needs ~12px of slack, or the
+     stamp hangs over the card's own border. */
+  bottom: clamp(12px, 1.3vw, 14px);
+  padding: 5px clamp(9px, 1.6vw, 14px);
+  border: 2px solid currentColor;
+  border-radius: 7px;
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
+  background: rgba(4, 4, 4, 0.55);
+  color: var(--green);
+  font-size: clamp(15px, 1.7vw, 20px);
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  line-height: 1.15;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: rotate(-9deg);
+  pointer-events: none;
+  animation: stamp-in 260ms cubic-bezier(0.2, 1.5, 0.45, 1) both;
+}
+
+/* The rotation repeats inside the keyframes: an animated transform replaces the static one. */
+@keyframes stamp-in {
+  from {
+    opacity: 0;
+    transform: rotate(-9deg) scale(1.55);
+  }
+  to {
+    opacity: 0.94;
+    transform: rotate(-9deg) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .extras-choices .choice-card.selected::after,
+  .spot-choices .choice-card.selected::after {
+    animation: none;
+    opacity: 0.94;
+  }
+}
+
+.notice {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid rgba(216, 182, 106, 0.5);
+  border-radius: var(--radius);
+  background: rgba(216, 182, 106, 0.08);
+}
+
+.notice[hidden] {
+  display: none;
+}
+
+.notice svg {
+  color: var(--amber);
+  margin-top: 2px;
+}
+
+.notice p {
+  margin: 0;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.details-form {
+  display: grid;
+  gap: 18px;
+  max-width: 560px;
+  margin-top: 24px;
+}
+
+.return-address {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.return-address[hidden] {
+  display: none;
+}
+
+.address-row {
+  display: grid;
+  grid-template-columns: 1fr 140px;
+  gap: 12px;
+}
+
+.review-list {
+  display: grid;
+  gap: 1px;
+  margin: 24px 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--line);
+}
+
+.review-row {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 16px;
+  padding: 14px 18px;
+  background: #0b0b0b;
+}
+
+.review-row dt {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.review-row dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.review-row:last-child {
+  background: rgba(255, 255, 255, 0.07);
+  font-weight: 700;
+}
+
+.confirm-actions {
+  max-width: 420px;
+}
+
+.step-nav {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.step-nav[hidden] {
+  display: none;
+}
+
+.step-nav button {
+  min-width: 140px;
+}
+
+.success-panel {
+  outline: none;
+}
+
+.order-code {
+  display: grid;
+  gap: 4px;
+  margin: 24px 0;
+  padding: 22px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.order-code span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.order-code strong {
+  font-size: 40px;
+  letter-spacing: 0.06em;
+}
+
+/* ---------------- Summary panel ---------------- */
+
+.summary-panel {
+  position: sticky;
+  top: 100px;
+  padding: 22px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.02)), #0b0b0b;
+  box-shadow: var(--shadow);
+}
+
+.summary-heading {
+  margin: 6px 0 18px;
+  font-size: 24px;
+}
+
+.summary-lines {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.summary-line dt {
+  color: var(--muted);
+}
+
+.summary-line dd {
+  margin: 0;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.times {
+  color: var(--fineprint);
+}
+
+.summary-total {
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.summary-total div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.summary-total span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.summary-total strong {
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.summary-total small {
+  display: block;
+  margin-top: 4px;
+  color: var(--fineprint);
+  font-size: 12px;
+}
+
+.summary-panel .fineprint {
+  margin: 16px 0 0;
+}
+
+.mobile-bar {
+  display: none;
+}
+
+/* ---------------- Tracking ---------------- */
+
+.tracking-shell {
+  display: grid;
+  gap: 28px;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 72px) clamp(20px, 5vw, 40px) 80px;
+}
+
+.auth-gate {
+  padding: clamp(24px, 4vw, 40px);
+  border: 1px solid var(--line-strong);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)), #0d0d0d;
+  box-shadow: var(--shadow);
+}
+
+.auth-gate[hidden] {
+  display: none;
+}
+
+.auth-gate h1 {
+  margin: 10px 0 12px;
+  font-size: clamp(32px, 5vw, 52px);
+}
+
+.auth-gate > p {
+  max-width: 58ch;
+  color: var(--muted);
+}
+
+/* An honest, unmissable label. This gate is UX, not security. */
+.demo-warning {
+  display: flex;
+  gap: 12px;
+  margin: 24px 0;
+  padding: 16px;
+  border: 1px solid rgba(216, 182, 106, 0.5);
+  border-radius: var(--radius);
+  background: rgba(216, 182, 106, 0.08);
+}
+
+.demo-warning svg {
+  margin-top: 2px;
+  color: var(--amber);
+}
+
+.demo-warning p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tab {
+  min-height: var(--tap);
+  padding: 0 16px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.tab[aria-selected="true"] {
+  border-bottom-color: var(--white);
+  color: var(--text);
+}
+
+.tab-panel[hidden] {
+  display: none;
+}
+
+.auth-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+  max-width: 520px;
+}
+
+.auth-form.stacked {
+  grid-template-columns: 1fr;
+  align-items: stretch;
+}
+
+.code-step {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--line-strong);
+}
+
+.demo-code {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.demo-code strong {
+  color: var(--text);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+}
+
+.demo-code span {
+  display: block;
+  margin-top: 4px;
+  color: var(--fineprint);
+  font-size: 12px;
+}
+
+.lookup-error {
+  min-height: 1.4em;
+  margin: 12px 0 0;
+  color: var(--red);
+  font-size: 14px;
+}
+
+/* ---------------- Account ---------------- */
+
+.account-panel {
+  outline: none;
+}
+
+.account-panel[hidden] {
+  display: none;
+}
+
+.account-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.account-head h1 {
+  margin: 6px 0 0;
+  font-size: clamp(30px, 4.5vw, 46px);
+}
+
+.empty-state {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+  padding: 32px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+}
+
+.empty-state[hidden] {
+  display: none;
+}
+
+.empty-state p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.order-list {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 32px;
+  padding: 0;
+  list-style: none;
+}
+
+.order-list[hidden] {
+  display: none;
+}
+
+.order-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  width: 100%;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  color: var(--text);
+  text-align: left;
+  transition: border-color 180ms ease, background 180ms ease;
+}
+
+.order-card:hover {
+  border-color: var(--line-strong);
+}
+
+.order-card.active {
+  border-color: var(--white);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.order-card-main strong {
+  display: block;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+}
+
+.order-card-main span,
+.order-card-main small {
+  display: block;
+  color: var(--muted);
+}
+
+.order-card-side {
+  display: grid;
+  gap: 8px;
+  justify-items: end;
+  align-content: center;
+}
+
+.order-card-side strong {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.status-pill.small {
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+.signed-in-note {
+  margin: 0 0 8px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(126, 224, 161, 0.08);
+  color: var(--text);
+  font-size: 14px;
+}
+
+.signed-in-note[hidden] {
+  display: none;
+}
+
+.confirm-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.footer-note {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.tracking-result {
+  padding: clamp(24px, 4vw, 36px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #0a0a0a;
+}
+
+.tracking-result[hidden] {
+  display: none;
+}
+
+.result-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.result-head h2 {
+  margin: 6px 0 0;
+  font-size: 34px;
+  letter-spacing: 0.05em;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+
+.timeline-title {
+  margin: 28px 0 16px;
+  font-size: 18px;
+}
+
+.timeline {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 14px;
+  padding-bottom: 24px;
+}
+
+.timeline-step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 22px;
+  bottom: 0;
+  width: 2px;
+  background: var(--line);
+}
+
+.timeline-marker {
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--line-strong);
+  border-radius: 50%;
+  background: #0a0a0a;
+}
+
+.timeline-step.done .timeline-marker {
+  border-color: var(--green);
+  background: var(--green);
+}
+
+.timeline-step.current .timeline-marker {
+  border-color: var(--amber);
+  background: rgba(216, 182, 106, 0.25);
+}
+
+.timeline-step strong {
+  display: block;
+}
+
+.timeline-state {
+  display: inline-block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.timeline-step.done .timeline-state {
+  color: var(--green);
+}
+
+.timeline-step.current .timeline-state {
+  color: var(--amber);
+}
+
+.timeline-step p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ---------------- Footer ---------------- */
+
+.site-footer {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+  gap: 40px;
+  padding: 56px clamp(20px, 5vw, 64px) 28px;
+  border-top: 1px solid var(--line);
+  background: #050505;
+}
+
+.footer-logo {
+  width: 78px;
+  height: 78px;
+  padding: 8px;
+  object-fit: contain;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #050505;
+}
+
+.footer-brand h2 {
+  margin: 14px 0 10px;
+  letter-spacing: 0.16em;
+  font-size: 24px;
+}
+
+.footer-brand p {
+  max-width: 360px;
+  color: var(--muted);
+}
+
+.contact-list {
+  display: grid;
+  gap: 6px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contact-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+}
+
+.contact-list a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+}
+
+.contact-list a:hover {
+  color: var(--white);
+}
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--tap);
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--muted);
+}
+
+.social-links a:hover,
+.footer-columns a:hover {
+  color: var(--white);
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+/* Spans column 1's left edge to column 3's right edge. */
+.footer-store {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 24px 40px;
+  margin-top: 12px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.footer-store h3 {
+  margin-bottom: 8px;
+}
+
+.footer-store a {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.footer-store a:hover {
+  color: var(--white);
+}
+
+.footer-hours {
+  display: flex;
+  gap: 28px;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.footer-hours dt {
+  color: var(--fineprint);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.footer-hours dd {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.footer-columns div {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+}
+
+.footer-columns h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer-columns a {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.footer-bottom {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---------------- Mobile nav ---------------- */
+
+.mobile-nav {
+  display: none;
+}
+
+/* ---------------- Responsive ---------------- */
+
+@media (max-width: 1280px) {
+  .process-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Rows wrap below five columns, so the connector would point at nothing. */
+  .process-grid li:not(:last-child)::after {
+    display: none;
+  }
+}
+
+/**
+ * Between the phone breakpoint and the desktop one, the header still shows the full nav, the
+ * spelled-out phone number and the account button — together they overflowed a 834px tablet.
+ * Trim the header's fat here rather than dropping the navigation entirely.
+ */
+@media (max-width: 1040px) {
+  .site-header {
+    gap: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .brand {
+    min-width: auto;
+  }
+
+  .desktop-nav {
+    gap: 14px;
+  }
+
+  .phone-label {
+    display: none;
+  }
+
+  .icon-button {
+    width: var(--tap);
+    padding: 0;
+  }
+}
+
+@media (max-width: 1120px) {
+  .hero-section,
+  .booking-shell,
+  .pricing-detail,
+  .quote-layout,
+  .spot-list {
+    grid-template-columns: 1fr;
+  }
+
+  .service-grid,
+  .faq-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .summary-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 1120px) {
+  .contact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .faq-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .box-panel {
+    grid-template-columns: minmax(160px, 240px) minmax(0, 1fr);
+  }
+
+  .guarantees {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .process-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  /* Below this width the sticky bar owns the primary action, so the inline one would duplicate it. */
+  .step-nav [data-next] {
+    display: none;
+  }
+
+  .step-nav button {
+    flex: 1;
+  }
+
+  .mobile-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 16px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    border-top: 1px solid var(--line-strong);
+    background: rgba(10, 10, 10, 0.94);
+    backdrop-filter: blur(16px);
+  }
+
+  .mobile-bar[hidden] {
+    display: none;
+  }
+
+  .mobile-bar span {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .mobile-bar strong {
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+  .mobile-bar button {
+    min-width: 160px;
+  }
+
+  /* Keeps the last step-nav row clear of the fixed bar. */
+  body:has(.mobile-bar) .booking-shell {
+    padding-bottom: 140px;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    padding: 14px 16px;
+    padding-top: max(14px, env(safe-area-inset-top));
+  }
+
+  .brand {
+    min-width: auto;
+  }
+
+  .brand strong {
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    white-space: nowrap;
+  }
+
+  /* Three controls plus the wordmark do not fit 375px. Account already lives in the bottom nav. */
+  .brand small,
+  .desktop-nav,
+  .phone-label,
+  [data-account-slot] {
+    display: none;
+  }
+
+  /* The desktop scrim is tuned for copy on the left half. Full-bleed on a phone it just
+     paints the sneakers black, which is the one thing the hero exists to show. */
+  .hero-scrim {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.72) 55%, rgba(0, 0, 0, 0.88) 100%);
+  }
+
+  .brand-logo-wrap {
+    width: 38px;
+    height: 38px;
+  }
+
+  .icon-button {
+    width: var(--tap);
+    padding: 0;
+  }
+
+  h2 {
+    font-size: 30px;
+  }
+
+  /* Service and turnaround each take the full row on a phone; pairs sits beside service. */
+  .quick-grid {
+    grid-template-columns: minmax(0, 1fr) 96px;
+    gap: 12px;
+  }
+
+  .quick-grid > label:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  /* The panel was 521px tall on a 390px screen. Nothing here is content — it is all chrome. */
+  .quick-book {
+    gap: 16px;
+    padding: 18px;
+  }
+
+  .quick-foot {
+    gap: 14px;
+    padding-top: 16px;
+  }
+
+  .quick-foot .primary-button {
+    width: 100%;
+  }
+
+  .quick-total strong {
+    font-size: 30px;
+  }
+
+  /* Three figures stacked ate 317px to say nine words. Two up, one across. */
+  .quote-stats {
+    grid-template-rows: none;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .quote-stats > div {
+    padding: 14px;
+  }
+
+  .quote-stats > div:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .quote-stats dt {
+    font-size: 26px;
+  }
+
+  .quote-stats dd {
+    margin-top: 4px;
+    font-size: 12px;
+  }
+
+  /* .guarantees, .process-grid, .quick-grid and .footer-columns each have a rule of their own
+     below. Left in this list they were flattened to one column by a later, blunter selector. */
+  .service-grid,
+  .contact-grid,
+  .pricing-detail,
+  .faq-grid,
+  .box-panel,
+  .site-footer,
+  .choice-grid,
+  .auth-form,
+  .address-row,
+  .spot-card {
+    grid-template-columns: 1fr;
+  }
+
+  .content-section {
+    padding: 52px 16px;
+  }
+
+  .booking-shell,
+  .tracking-shell,
+  .contact-shell {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .faq-more {
+    display: grid;
+  }
+
+  .guarantees {
+    margin-top: 0;
+  }
+
+  .process-section {
+    padding-top: 52px;
+  }
+
+  /* Three stacked link columns, each row a 44px tap target, made the footer four screens long. */
+  .footer-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px 18px;
+  }
+
+  /* Legal spans the row, so its four links may as well sit two-up inside it rather than run
+     four 44px rows down the page. */
+  .footer-columns > div:nth-child(3) {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 18px;
+  }
+
+  .footer-columns > div:nth-child(3) h3 {
+    grid-column: 1 / -1;
+  }
+
+  .footer-store {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+
+  .search-row {
+    display: grid;
+  }
+
+  .spot-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .order-card {
+    grid-template-columns: 1fr;
+  }
+
+  .order-card-side {
+    justify-items: start;
+  }
+
+  .review-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .order-code strong {
+    font-size: 32px;
+  }
+
+  .footer-bottom {
+    display: grid;
+  }
+
+  /* ---- Rails ------------------------------------------------------------------------------
+     Four badges and five steps, stacked, cost 1.6 screens before the page has said anything.
+     On their side they cost one card each. The scroll container IS the list, so this survives
+     rail.js being deleted: it just stops drifting on its own. */
+  .guarantees,
+  .process-grid {
+    display: grid;
+    /* The base rules declare 4 and 5 explicit columns. grid-auto-columns only sizes the implicit
+       ones, so without this the cards were crushed into four 42px slivers. */
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(78vw, 300px);
+    gap: 12px;
+    /* Bleed to the screen edges and pad back: the first card lines up with the copy above it,
+       and the last one runs off the edge rather than stopping short of it. */
+    margin-inline: -16px;
+    padding-inline: 16px;
+    /* Pinned shut vertically. Left at the default, overflow-x: auto would make overflow-y auto
+       too, and the reveal animation's 20px rise would hand the rail a stray vertical scrollbar.
+       The block padding is the room the rise and the hover lift need. */
+    padding-block: 10px 24px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 16px;
+    scrollbar-width: none;
+  }
+
+  .guarantees::-webkit-scrollbar,
+  .process-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .guarantees > li,
+  .process-grid > li {
+    scroll-snap-align: start;
+  }
+
+  .guarantees {
+    /* The desktop strip hangs up into the banner. A rail sits below it. */
+    margin-block: 0 clamp(40px, 6vw, 56px);
+  }
+
+  .process-grid {
+    --step-gap: 12px;
+  }
+
+  /* ---- Drop-off list --------------------------------------------------------------------
+     At ≤1100px the map stacks above the list and the list's height cap is released. That is
+     fine for four spots and unusable for the ten the site advertises, let alone a hundred:
+     the page would grow without limit and the map would scroll away above it. Cap it, and let
+     the list scroll inside itself. */
+  .spots-side .spot-list {
+    max-height: 58vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: 4px;
+    scrollbar-color: rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.06);
+    scrollbar-width: thin;
+  }
+
+  .spots-map {
+    min-height: 300px;
+  }
+
+  .spot-card {
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .spot-body .tag {
+    margin: 4px 0;
+  }
+
+  /* ---- Footer ---------------------------------------------------------------------------
+     1248px to publish a phone number, four link groups and an address. Every 44px tap target
+     stays 44px — the height came out of the gaps between them and the leading inside them. */
+  .site-footer {
+    gap: 28px;
+    padding: 40px 16px 20px;
+    line-height: 1.45;
+  }
+
+  .footer-logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .footer-brand h2 {
+    margin: 10px 0 6px;
+    font-size: 20px;
+  }
+
+  .footer-brand p {
+    font-size: 14px;
+  }
+
+  .contact-list {
+    gap: 0;
+    margin-top: 8px;
+  }
+
+  .social-links {
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .social-links a {
+    padding: 0 10px;
+    font-size: 13px;
+  }
+
+  .footer-columns h3 {
+    margin-bottom: 0;
+  }
+
+  .footer-store {
+    gap: 12px;
+    margin-top: 8px;
+    padding-top: 16px;
+  }
+
+  .footer-hours {
+    gap: 18px;
+  }
+
+  .footer-bottom {
+    gap: 4px;
+    padding-top: 16px;
+  }
+
+  .mobile-nav {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    z-index: 30;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    padding: 8px;
+    border: 1px solid var(--line-strong);
+    border-radius: 18px;
+    background: rgba(12, 12, 12, 0.94);
+    backdrop-filter: blur(16px);
+  }
+
+  .mobile-nav a {
+    display: grid;
+    min-height: var(--tap);
+    place-items: center;
+    border-radius: 12px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .mobile-nav a:active {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .mobile-nav a[aria-current="page"] {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  /* Only the landing page carries the bottom nav, so only it needs the inset. */
+  body:has(.mobile-nav) {
+    padding-bottom: 108px;
+  }
+}
+
+/* Long-form copy stays readable rather than running edge to edge on tablets. */
+@media (min-width: 761px) and (max-width: 1120px) {
+  .step-intro,
+  .section-heading p {
+    max-width: 60ch;
+  }
+}
+
+/* ---------------- Scroll animation ---------------- */
+
+/* Words are masked by their own wrapper so they rise out of the line rather than fading in place.
+   Only applied once JS has split the heading; an unsplit heading is untouched. */
+.word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.word > span {
+  display: inline-block;
+  will-change: transform;
+}
+
+
+/* ---------------- Promo dialog ---------------- */
+
+/**
+ * A native <dialog>. `showModal()` supplies the focus trap, Escape, focus restoration and an
+ * inert background — every one of which a hand-rolled overlay usually gets wrong.
+ */
+.promo {
+  width: min(440px, calc(100vw - 32px));
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)), #0c0c0c;
+  color: var(--text);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
+  overflow: visible;
+}
+
+.promo::backdrop {
+  background: rgba(0, 0, 0, 0.66);
+  backdrop-filter: blur(4px);
+}
+
+.promo[open] {
+  animation: promo-in 320ms cubic-bezier(0.22, 0.7, 0.24, 1);
+}
+
+@keyframes promo-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+}
+
+.promo > div {
+  padding: clamp(26px, 4vw, 38px);
+}
+
+.promo-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--muted);
+}
+
+.promo-close:hover {
+  color: var(--white);
+}
+
+.promo-close svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.promo-eyebrow {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.promo h2 {
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4vw, 36px);
+  line-height: 1.05;
+}
+
+.promo-lede {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.promo-form {
+  display: grid;
+  gap: 16px;
+}
+
+.promo-names {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.promo-consent {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  cursor: pointer;
+}
+
+.promo-consent input {
+  width: 18px;
+  height: 18px;
+  min-height: 0;
+  margin-top: 2px;
+  padding: 0;
+  accent-color: var(--white);
+}
+
+.promo .lookup-error {
+  margin: 0;
+}
+
+.promo-note {
+  margin: 20px 0 0;
+  color: var(--fineprint);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.promo-done {
+  text-align: center;
+}
+
+.promo-done[hidden] {
+  display: none;
+}
+
+.promo-done p {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.promo-tick {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 18px;
+  border: 1px solid rgba(126, 224, 161, 0.5);
+  border-radius: 50%;
+  background: rgba(126, 224, 161, 0.1);
+  color: var(--green);
+}
+
+.promo-tick svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/**
+ * Below ~400px the wordmark (158px), the call button and "Book Now" (173px together) and the
+ * header's own padding (32px) add up to 379px and the page scrolls sideways.
+ *
+ * "Book Now" is the one to drop: the fixed bottom nav carries "Book" on every page that has one,
+ * one tap away and always on screen, which a header button that scrolls off the top is not. On
+ * booking.html there is no bottom nav — and no need for the button, because you are already there.
+ */
+@media (max-width: 400px) {
+  .header-actions .primary-button {
+    display: none;
+  }
+}
+
+@media (max-width: 460px) {
+  .promo-names {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Scroll reveal. The hidden state is scoped to .js-reveal, which JS only adds once it has
+   confirmed IntersectionObserver and that motion is wanted — so content never stays invisible. */
+.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.js-reveal [data-reveal].revealed {
+  opacity: 1;
+  transform: none;
+  transition: opacity 420ms ease-out, transform 480ms cubic-bezier(0.22, 0.7, 0.24, 1);
+  transition-delay: calc(var(--reveal-delay, 0) * 80ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js-reveal [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* No slide, no flip. The colour change alone still confirms the hover. */
+  .btn-face {
+    transform: none !important;
+  }
+
+  .btn-face::after {
+    display: none;
+  }
+
+  .secondary-button:hover .btn-face,
+  .secondary-button:focus-visible .btn-face,
+  .ghost-button:hover .btn-face,
+  .ghost-button:focus-visible .btn-face {
+    color: #050505;
+  }
+
+  /* No gloss sweep, no dialog entrance, no caret spin. */
+  .guarantees li::after {
+    display: none;
+  }
+
+  .faq-grid summary::after,
+  .listbox-caret,
+  .pricing-disclosure summary::after {
+    transition: none;
+  }
+
+  .promo[open] {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .primary-button:hover,
+  .secondary-button:hover,
+  .ghost-button:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="KENZ KLEAN is a professional sneaker cleaning and restoration service in Melbourne. Drop your shoes at one of our drop-off spots and we return them to your door for free."
+    />
+    <title>KENZ KLEAN | The Most Convenient Sneaker Cleaning in Melbourne</title>
+    <!--
+      Both halves of the banner are LCP candidates and must arrive together, or the divider
+      would sweep across a blank. Preload repeats the srcset, not a single href: a plain
+      href would preload one width while <picture> then picks another, downloading both.
+    -->
+    <link
+      rel="preload"
+      as="image"
+      type="image/avif"
+      imagesrcset="img/before-760.avif 760w, img/before-1100.avif 1100w, img/before-1440.avif 1440w"
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      type="image/avif"
+      imagesrcset="img/after-760.avif 760w, img/after-1100.avif 1100w, img/after-1440.avif 1440w"
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <a class="brand" href="#main" aria-label="KENZ KLEAN home">
+        <span class="brand-logo-wrap">
+          <img class="brand-logo" src="img/logo-96.png" alt="" width="34" height="34" />
+        </span>
+        <span>
+          <strong>KENZ KLEAN</strong>
+          <small>Sneaker Cleaning</small>
+        </span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Primary">
+        <a href="#process">How it works</a>
+        <a href="#services">Pricing</a>
+        <a href="#spots">Drop-off</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="ghost-button icon-button" href="tel:+61482676789" aria-label="Call KENZ KLEAN on 0482 676 789">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1Z" />
+          </svg>
+          <span class="phone-label">0482 676 789</span>
+        </a>
+        <span data-account-slot></span>
+        <a class="primary-button" href="booking.html">Book Now</a>
+      </div>
+    </header>
+
+    <main id="main">
+      <!--
+        The banner is the before/after itself. Both photographs are the same pair on the same
+        marks — one on a black sweep, one on white — so the divider reads as dirt coming off.
+        Nothing inside the drag surface is clickable except the handle: the booking form lives
+        in the bar underneath, where a pointerdown can never be mistaken for a drag.
+
+        `--pos` is written to this section, not to the <figure>, because the headline is a
+        sibling of the banner rather than a child. It has to be: on a phone it drops below the
+        photograph, and a child of the figure could not.
+      -->
+      <section class="hero-section" aria-labelledby="hero-title" data-compare-scope style="--pos: 46%">
+        <figure class="compare hero-compare" data-compare data-compare-start="46" data-compare-sweep="22">
+          <picture class="compare-layer">
+            <source type="image/avif" sizes="100vw" srcset="img/before-760.avif 760w, img/before-1100.avif 1100w, img/before-1440.avif 1440w" />
+            <source type="image/webp" sizes="100vw" srcset="img/before-760.webp 760w, img/before-1100.webp 1100w, img/before-1440.webp 1440w" />
+            <img src="img/before-1100.webp" alt="A pair of sneakers before cleaning, grey with ground-in dirt" width="1443" height="693" fetchpriority="high" decoding="async" />
+          </picture>
+
+          <picture class="compare-layer compare-layer--after">
+            <source type="image/avif" sizes="100vw" srcset="img/after-760.avif 760w, img/after-1100.avif 1100w, img/after-1440.avif 1440w" />
+            <source type="image/webp" sizes="100vw" srcset="img/after-760.webp 760w, img/after-1100.webp 1100w, img/after-1440.webp 1440w" />
+            <img src="img/after-1100.webp" alt="The same pair after a KENZ KLEAN clean, back to white" width="1443" height="693" fetchpriority="high" decoding="async" />
+          </picture>
+
+          <span class="compare-label compare-label--before" aria-hidden="true">Before</span>
+          <span class="compare-label compare-label--after" aria-hidden="true">After</span>
+
+          <button
+            class="compare-handle"
+            type="button"
+            data-compare-handle
+            role="slider"
+            aria-label="Reveal the cleaned sneakers"
+            aria-valuemin="2"
+            aria-valuemax="98"
+            aria-valuenow="46"
+          >
+            <span class="compare-grip" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="m10 7-4 5 4 5M14 7l4 5-4 5" />
+              </svg>
+            </span>
+          </button>
+
+          <figcaption class="visually-hidden">
+            The same pair of sneakers before and after a KENZ KLEAN clean. Drag the divider, or use
+            the arrow keys, to compare them.
+          </figcaption>
+        </figure>
+
+        <!--
+          The shoes sit in the top half of both frames, so the copy takes the empty bottom band.
+          It is written twice — once light, once dark — and each copy is clipped against the same
+          --pos as the photographs, so the colour changes exactly on the divider. Both layers span
+          the whole banner: the clip percentages have to resolve against the banner's width, not
+          against the width of the text block.
+
+          The dark-side copy carries the real <h1>; the light-side copy is its mute twin.
+        -->
+        <div class="hero-copy">
+          <div class="hero-copy-layer hero-copy-layer--on-dark">
+            <p class="eyebrow">Melbourne sneaker cleaning &amp; restoration</p>
+            <h1 id="hero-title" data-split>The most convenient sneaker cleaning in Melbourne.</h1>
+            <p class="hero-lede">
+              Drop your shoes at a spot near you. We clean them with eco-friendly, baby-safe
+              products and return them to your door — free.
+            </p>
+          </div>
+          <div class="hero-copy-layer hero-copy-layer--on-light" aria-hidden="true">
+            <p class="eyebrow">Melbourne sneaker cleaning &amp; restoration</p>
+            <p class="hero-title-echo" data-split>The most convenient sneaker cleaning in Melbourne.</p>
+            <p class="hero-lede">
+              Drop your shoes at a spot near you. We clean them with eco-friendly, baby-safe
+              products and return them to your door — free.
+            </p>
+          </div>
+
+          <!--
+            The buttons are NOT duplicated. Each carries its own fill, so it is legible on the
+            black side and on the white side alike — duplicating them would double the tab stops
+            and leave keyboard focus on whichever copy the divider had clipped away.
+          -->
+          <div class="hero-cta">
+            <a class="secondary-button large" href="#spots">Find a Drop-off Spot</a>
+            <a class="primary-button large" href="booking.html">Book a Clean</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="process" class="content-section process-section" aria-labelledby="process-title">
+        <!--
+          Straddles the seam: a third of each badge sits over the banner, two thirds over this
+          section. Pulled up by exactly a third of its own height, so the overlap holds at any
+          width. The hero copy's bottom padding is set clear of it.
+        -->
+        <ul class="guarantees" data-rail-auto aria-label="Included with every order">
+          <li>
+            <span class="guarantee-icon">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7h10v9H3z" /><path d="M13 10h4l4 3.5V16h-8z" /><circle cx="7.5" cy="18" r="1.8" /><circle cx="17" cy="18" r="1.8" /></svg>
+            </span>
+            <span class="guarantee-text">
+              <strong>Free return delivery</strong>
+              <span>Standard and express, to your door</span>
+            </span>
+          </li>
+          <li>
+            <span class="guarantee-icon">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19c0-8 5-13 14-14 1 9-3 15-11 15H5Z" /><path d="M5 19c2-4 5-6 9-7" /></svg>
+            </span>
+            <span class="guarantee-text">
+              <strong>Eco-friendly, baby-safe</strong>
+              <span>Products you would trust at home</span>
+            </span>
+          </li>
+          <li>
+            <span class="guarantee-icon">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z" /><circle cx="12" cy="13" r="3.4" /></svg>
+            </span>
+            <span class="guarantee-text">
+              <strong>Photographed before &amp; after</strong>
+              <span>Every pair documented, nothing lost</span>
+            </span>
+          </li>
+          <li>
+            <span class="guarantee-icon">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 3H5a2 2 0 0 0-2 2v6l9.5 9.5a2 2 0 0 0 2.8 0l5.7-5.7a2 2 0 0 0 0-2.8L11 3Z" /><circle cx="7.6" cy="7.6" r="1.2" /></svg>
+            </span>
+            <span class="guarantee-text">
+              <strong>GST included</strong>
+              <span>The total you see is the total you pay</span>
+            </span>
+          </li>
+        </ul>
+
+        <div class="section-heading">
+          <span class="panel-label">How it works</span>
+          <h2 id="process-title">Five steps, no guesswork.</h2>
+          <p>
+            Book online first if you want, or just turn up at a spot and scan the QR code on the
+            box — the details and service selection happen right there.
+          </p>
+        </div>
+        <ol class="process-grid" data-rail>
+          <li data-reveal>
+            <span class="step-icon">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 21c4.2-4 6.5-7 6.5-10a6.5 6.5 0 1 0-13 0c0 3 2.3 6 6.5 10Z" />
+                <circle cx="12" cy="11" r="2.4" />
+              </svg>
+            </span>
+            <span class="step-num">Step 01</span>
+            <strong>Drop off</strong>
+            <p>Bring your footwear to the nearest KENZ KLEAN drop-off location.</p>
+          </li>
+          <li data-reveal>
+            <span class="step-icon">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z" />
+                <path d="M14 14h2.2M19.8 14H20M14 17.6h6M14 20h2.2M19.8 20H20" />
+              </svg>
+            </span>
+            <span class="step-num">Step 02</span>
+            <strong>Scan &amp; register</strong>
+            <p>Scan the QR code on the box, then fill in your details and pick your service.</p>
+          </li>
+          <li data-reveal>
+            <span class="step-icon">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M6 8h12l1 12H5L6 8Z" />
+                <path d="M9 8V6a3 3 0 0 1 6 0v2" />
+              </svg>
+            </span>
+            <span class="step-num">Step 03</span>
+            <strong>Tag &amp; pack</strong>
+            <p>Complete the sticker, attach it, place your shoes in the dust bag and drop them in.</p>
+          </li>
+          <li data-reveal>
+            <span class="step-icon">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="m12 4 1.7 4.6L18.3 10l-4.6 1.4L12 16l-1.7-4.6L5.7 10l4.6-1.4L12 4Z" />
+                <path d="M18.4 16.4 19.1 18l1.6.7-1.6.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7.7-1.6Z" />
+              </svg>
+            </span>
+            <span class="step-num">Step 04</span>
+            <strong>We take care of the rest</strong>
+            <p>Our team professionally cleans and restores your footwear, and photographs it.</p>
+          </li>
+          <li data-reveal>
+            <span class="step-icon">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M3 7h10v9H3z" />
+                <path d="M13 10h4l4 3.5V16h-8z" />
+                <circle cx="7.5" cy="18" r="1.8" />
+                <circle cx="17" cy="18" r="1.8" />
+              </svg>
+            </span>
+            <span class="step-num">Step 05</span>
+            <strong>Free return delivery</strong>
+            <p>Your shoes are returned to your front door within 3-5 business days.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section id="services" class="content-section" aria-labelledby="services-title">
+        <div class="section-heading">
+          <span class="panel-label">Pricing</span>
+          <h2 id="services-title">Pick a package. That is the only choice you make here.</h2>
+          <p>
+            All prices are per pair and include GST. Extras and turnaround are chosen during
+            booking, once you know what your pair needs.
+          </p>
+        </div>
+
+        <div class="service-grid" data-service-list></div>
+
+        <!--
+          Extras and turnaround are configuration, not comparison. They stay one click away so the
+          "no mystery pricing" promise holds, without eleven numbers competing on first paint.
+          Nothing inside carries data-reveal: a closed <details> has no layout, so an
+          IntersectionObserver would never fire and the content would open up invisible.
+        -->
+        <div data-accordion>
+          <details class="pricing-disclosure">
+          <summary>
+            <span>See extras and turnaround pricing</span>
+            <span class="summary-hint">4 extras · 3 turnaround options</span>
+          </summary>
+
+          <div class="pricing-detail">
+            <div class="pricing-block">
+              <h3 id="extras-title">Extra services</h3>
+              <p class="fineprint">Per pair. Only apply with a main service.</p>
+              <ul class="extras-list" data-extras-list aria-labelledby="extras-title"></ul>
+            </div>
+
+            <div class="pricing-block">
+              <h3 id="turnaround-title">Turnaround</h3>
+              <p class="fineprint">Surcharges are charged per pair.</p>
+              <ul class="turnaround-list" data-turnaround-list aria-labelledby="turnaround-title"></ul>
+            </div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!--
+        The conversion beat: how it works, what it costs, why us — and only then, the ask.
+        The three figures beside the form are not decoration, they are what the total buys.
+      -->
+      <section id="quote" class="content-section quote-section" aria-labelledby="quote-title">
+        <div class="section-heading">
+          <span class="panel-label">Estimate</span>
+          <h2 id="quote-title">Your price, in ten seconds.</h2>
+          <p>Change anything you like during booking. Nothing is charged yet.</p>
+        </div>
+
+        <div class="quote-layout">
+          <form class="quick-book" data-quick-book aria-labelledby="quote-title">
+            <div class="quick-grid">
+              <label id="quick-service-label" for="quick-service">
+                Service
+                <select id="quick-service" name="service" data-listbox></select>
+              </label>
+              <label for="quick-pairs">
+                Pairs
+                <input id="quick-pairs" name="pairs" type="number" min="1" max="20" value="1" inputmode="numeric" />
+              </label>
+              <label id="quick-turnaround-label" for="quick-turnaround">
+                Turnaround
+                <select id="quick-turnaround" name="turnaround" data-listbox></select>
+              </label>
+            </div>
+
+            <div class="quick-foot">
+              <p class="quick-total">
+                <span>Estimated total, GST included</span>
+                <strong data-quick-total>$49.00</strong>
+              </p>
+              <button class="primary-button large" type="submit">Book a Clean</button>
+            </div>
+            <small class="quick-note" data-quick-note></small>
+          </form>
+
+          <!--
+            Not decoration: these three read back the choice made on the left. The 24-hour tier
+            really does cancel home delivery, so the third card has to say so.
+          -->
+          <dl class="quote-stats">
+            <div>
+              <dt data-stat="price">$49</dt>
+              <dd data-stat-note="price">Per pair, Basic Clean</dd>
+            </div>
+            <div>
+              <dt data-stat="turnaround">3-5</dt>
+              <dd data-stat-note="turnaround">Business days</dd>
+            </div>
+            <div>
+              <dt data-stat="return">Free</dt>
+              <dd data-stat-note="return">Return delivery to your door</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section id="spots" class="content-section spots-section" aria-labelledby="spots-title">
+        <div class="section-heading">
+          <span class="panel-label">Drop-off network</span>
+          <h2 id="spots-title">Find a spot near you.</h2>
+          <p data-spots-intro></p>
+        </div>
+
+        <!--
+          The box itself. Every claim beside it is printed on its body, so the photograph is the
+          evidence rather than an illustration of it — and that is the QR code step 02 mentions.
+        -->
+        <div class="box-panel">
+          <picture class="box-shot">
+            <source type="image/avif" sizes="(max-width: 900px) 55vw, 300px" srcset="img/box-360.avif 360w, img/box-720.avif 720w" />
+            <source type="image/webp" sizes="(max-width: 900px) 55vw, 300px" srcset="img/box-360.webp 360w, img/box-720.webp 720w" />
+            <img src="img/box-360.webp" alt="A black KENZ KLEAN drop-off box with a QR code on the front" width="800" height="800" loading="lazy" decoding="async" />
+          </picture>
+
+          <div class="box-copy">
+            <span class="panel-label">Look for this box</span>
+            <h3>Black, tall, and it says Footwear only.</h3>
+            <p>
+              Scan the QR code on the front to register your pair and pick a service. No staff, no
+              queue, no appointment.
+            </p>
+            <ul class="box-facts">
+              <li>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                <span>24/7 CCTV in operation</span>
+              </li>
+              <li>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z" />
+                  <path d="M14 14h2.2M19.8 14H20M14 17.6h6M14 20h2.2M19.8 20H20" />
+                </svg>
+                <span>Scan, register, drop in</span>
+              </li>
+              <li>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M3 7h10v9H3z" />
+                  <path d="M13 10h4l4 3.5V16h-8z" />
+                  <circle cx="7.5" cy="18" r="1.8" />
+                  <circle cx="17" cy="18" r="1.8" />
+                </svg>
+                <span>Free home return delivery</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!--
+          Map left, list right. They are one control: a card selects its pin, a pin selects its
+          card. The map is lazy — see map.js — and the addresses stay as text so the list works
+          on its own if it never loads.
+        -->
+        <div class="spots-layout">
+          <div class="spots-map" data-map>
+            <div class="spots-map-canvas" data-map-canvas></div>
+            <p class="spots-map-fallback" data-map-fallback hidden>
+              The map could not load. Every address and its directions link are listed beside this.
+            </p>
+          </div>
+
+          <div class="spots-side">
+            <div class="search-row">
+              <label class="visually-hidden" for="spot-search">Search drop-off spots</label>
+              <input id="spot-search" type="search" placeholder="Footscray, St Albans, 3020..." autocomplete="off" />
+              <button class="secondary-button" type="button" id="clear-search">Clear</button>
+            </div>
+            <p class="search-status" role="status" data-spot-status></p>
+
+            <ul class="spot-list" data-spot-list></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section faq-section" aria-labelledby="faq-title">
+        <div class="section-heading">
+          <span class="panel-label">Support</span>
+          <h2 id="faq-title">The questions we get most.</h2>
+        </div>
+
+        <!-- Two columns, stretched: the contact card matches the question list top and bottom. -->
+        <div class="faq-layout">
+          <div class="faq-grid" data-accordion>
+            <details open>
+              <summary>Do I have to book online first?</summary>
+              <p>
+                No. You can turn up at any drop-off spot and scan the QR code on the box to register
+                your shoes and pick a service on the spot. Booking online first just means your order
+                is already waiting when you arrive, and it creates your account so you can track it.
+              </p>
+            </details>
+            <details>
+              <summary>How do I get them back?</summary>
+              <p>
+                Standard and express orders are returned to your front door for free. The 24-hour
+                turnaround is the exception: those must be dropped off and picked up at the main
+                store in Footscray.
+              </p>
+            </details>
+            <details>
+              <summary>How long does it take?</summary>
+              <p>
+                Standard turnaround is 3-5 business days. Express is 2-3 business days for $10 per
+                pair. A 24-hour return is $20 per pair.
+              </p>
+            </details>
+            <details>
+              <summary>What do you clean the shoes with?</summary>
+              <p>
+                Eco-friendly, baby-safe products. Each material — leather, mesh, suede, nubuck,
+                canvas — gets a treatment matched to it.
+              </p>
+            </details>
+            <details>
+              <summary>Can I book an extra service on its own?</summary>
+              <p>
+                No. Sole protection, yellow sole whitening, reglue and full repaint only apply with
+                a main cleaning service. Restoration already includes repainting, regluing and
+                yellow sole whitening, so you are never charged for them twice.
+              </p>
+            </details>
+            <details>
+              <summary>Are the prices GST inclusive?</summary>
+              <p>
+                Yes. Every price shown includes GST, so the total you see is the total you pay.
+                There is no tax added at checkout.
+              </p>
+            </details>
+          </div>
+
+          <aside class="faq-contact" aria-labelledby="faq-contact-title">
+            <span class="panel-label">Still deciding?</span>
+            <h3 id="faq-contact-title">We pick up the phone.</h3>
+            <p>
+              If your pair needs something unusual, call before booking and we will tell you
+              honestly whether we can do it.
+            </p>
+
+            <ul class="faq-contact-list">
+              <li>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1Z" />
+                </svg>
+                <a href="tel:+61482676789">0482 676 789</a>
+              </li>
+              <li>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M3 6h18v12H3z" />
+                  <path d="m3 7 9 6 9-6" />
+                </svg>
+                <a href="mailto:support@kenzklean.com.au">support@kenzklean.com.au</a>
+              </li>
+              <li>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v5.2l3.4 2" />
+                </svg>
+                <span>Mon-Thu 10am-6pm · Fri-Sat 9am-7pm · Sun 9am-5pm</span>
+              </li>
+            </ul>
+
+            <a class="secondary-button large full" href="contact.html">More questions &amp; contact</a>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <img class="footer-logo" src="img/logo-96.png" alt="" width="78" height="78" loading="lazy" />
+        <h2>KENZ KLEAN</h2>
+        <p>Professional sneaker cleaning and restoration in Melbourne, Australia.</p>
+        <ul class="contact-list">
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1Z" />
+            </svg>
+            <a href="tel:+61482676789">0482 676 789</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M3 6h18v12H3z" />
+              <path d="m3 7 9 6 9-6" />
+            </svg>
+            <a href="mailto:support@kenzklean.com.au">support@kenzklean.com.au</a>
+          </li>
+        </ul>
+        <div class="social-links">
+          <a href="https://instagram.com/kenzklean" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm5.8-3.3a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Z" />
+            </svg>
+            Instagram
+          </a>
+          <a href="https://youtube.com/@kenzklean" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M22 12s0-3.5-.45-5.16a2.6 2.6 0 0 0-1.83-1.84C18.06 4.5 12 4.5 12 4.5s-6.06 0-7.72.5A2.6 2.6 0 0 0 2.45 6.84C2 8.5 2 12 2 12s0 3.5.45 5.16a2.6 2.6 0 0 0 1.83 1.84c1.66.5 7.72.5 7.72.5s6.06 0 7.72-.5a2.6 2.6 0 0 0 1.83-1.84C22 15.5 22 12 22 12ZM10 15.2V8.8l5.4 3.2Z" />
+            </svg>
+            YouTube
+          </a>
+          <a href="https://tiktok.com/@kenzklean" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M16.5 2h-3v13a2.6 2.6 0 1 1-2.6-2.6c.24 0 .47.03.7.1V9.4a5.7 5.7 0 1 0 4.9 5.63V8.9a6.4 6.4 0 0 0 4 1.37V7.2a3.6 3.6 0 0 1-4-3.6V2Z" />
+            </svg>
+            TikTok
+          </a>
+          <a href="https://facebook.com/kenzklean" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M14 8.5V7c0-.8.2-1.2 1.3-1.2H17V3h-2.6C11.6 3 10.6 4.4 10.6 7v1.5H9V11h1.6v10H14V11h2.3l.3-2.5Z" />
+            </svg>
+            Facebook
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-columns">
+        <div>
+          <h3>Packages</h3>
+          <a href="#services">Basic Clean — $49</a>
+          <a href="#services">Deep Clean — $65</a>
+          <a href="#services">Ultimate Clean — $95</a>
+          <a href="#services">Restoration — $195</a>
+        </div>
+        <div>
+          <h3>Company</h3>
+          <a href="#process">How it works</a>
+          <a href="#quote">Get a quote</a>
+          <a href="booking.html">Book online</a>
+          <a href="contact.html">Contact &amp; FAQ</a>
+        </div>
+        <div>
+          <h3>Legal</h3>
+          <a href="#">Terms of Service</a>
+          <a href="#">Privacy Statement</a>
+          <a href="#">Shipping &amp; Delivery</a>
+          <a href="#">Return &amp; Refund</a>
+        </div>
+
+        <div class="footer-store">
+          <div>
+            <h3>Main store</h3>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=163%20Barkly%20St%2C%20Footscray%20VIC%203011" target="_blank" rel="noreferrer">163 Barkly St, Footscray VIC 3011</a>
+          </div>
+          <dl class="footer-hours">
+            <div><dt>Mon-Thu</dt><dd>10am-6pm</dd></div>
+            <div><dt>Fri-Sat</dt><dd>9am-7pm</dd></div>
+            <div><dt>Sunday</dt><dd>9am-5pm</dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>Melbourne, VIC, Australia</span>
+        <span>&copy; 2026 KENZ KLEAN. All rights reserved.</span>
+      </div>
+    </footer>
+
+    <nav class="mobile-nav" aria-label="Mobile">
+      <a href="#main" aria-current="page">Home</a>
+      <a href="#services">Pricing</a>
+      <a href="booking.html">Book</a>
+      <a href="#spots">Drop-off</a>
+      <a href="tracking.html">Account</a>
+    </nav>
+    <script src="data.js"></script>
+    <script src="auth.js"></script>
+    <script src="chrome.js"></script>
+    <script src="script.js"></script>
+    <script src="rail.js"></script>
+    <script src="map.js"></script>
+    <script src="compare.js"></script>
+    <script src="vendor/gsap.min.js"></script>
+    <script src="vendor/ScrollTrigger.min.js"></script>
+    <script src="anim.js"></script>
+    <script src="disclosure.js"></script>
+    <script src="select.js"></script>
+    <script src="buttons.js"></script>
+
+    <!--
+      The $10-off popup. See promo.js: it is deliberately late, one-shot, and NOT yet connected
+      to a mailing list. The consent checkbox ships unchecked because the Spam Act 2003 requires
+      consent to be given rather than assumed.
+    -->
+    <dialog class="promo" data-promo aria-labelledby="promo-title">
+      <button class="promo-close" type="button" data-promo-close aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="m6 6 12 12M18 6 6 18" />
+        </svg>
+      </button>
+
+      <div data-promo-form-view>
+        <p class="promo-eyebrow">Newsletter</p>
+        <h2 id="promo-title">$10 off your first clean</h2>
+        <p class="promo-lede">
+          Sign up for occasional news and offers from KENZ KLEAN, and we will send you a $10 code.
+        </p>
+
+        <form class="promo-form" data-promo-form novalidate>
+          <div class="promo-names">
+            <label for="promo-first">
+              First name
+              <input id="promo-first" name="firstName" type="text" autocomplete="given-name" />
+            </label>
+            <label for="promo-last">
+              Last name
+              <input id="promo-last" name="lastName" type="text" autocomplete="family-name" />
+            </label>
+          </div>
+
+          <label for="promo-email">
+            Email address
+            <input id="promo-email" name="email" type="email" autocomplete="email" required />
+          </label>
+
+          <label class="promo-consent" for="promo-consent">
+            <input id="promo-consent" name="consent" type="checkbox" />
+            <span>I want KENZ KLEAN to email me marketing and promotional material until I unsubscribe.</span>
+          </label>
+
+          <p class="lookup-error" role="alert" data-promo-error></p>
+
+          <button class="primary-button large full" type="submit">Subscribe</button>
+        </form>
+
+        <p class="promo-note">
+          <strong>Demo build.</strong> This form is not connected to a mailing list yet — nothing
+          is sent anywhere.
+        </p>
+      </div>
+
+      <div class="promo-done" data-promo-done hidden>
+        <span class="promo-tick" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="m5 12.5 4.5 4.5L19 7" />
+          </svg>
+        </span>
+        <h2>You are on the list.</h2>
+        <p>Your $10 code is on its way. It applies to your first clean, on any package.</p>
+        <button class="secondary-button large full" type="button" data-promo-done-close>Close</button>
+      </div>
+    </dialog>
+
+    <script src="promo.js"></script>
+  </body>
+</html>
