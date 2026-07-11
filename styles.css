@@ -1104,7 +1104,9 @@ main > section:nth-of-type(even):not(.hero-section) {
   position: relative;
   z-index: 3;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* Six promises, three to a row. Only the top row overhangs the banner; the -32px pulls the
+     whole strip up so its first row still crosses the seam the way one row of four used to. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   margin: -32px 0 clamp(48px, 5vw, 72px);
   padding: 0;
@@ -3257,8 +3259,10 @@ a.contact-value {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  /* Rows wrap below five columns, so the connector would point at nothing. */
-  .process-grid li:not(:last-child)::after {
+  /* Rows wrap below five columns, so the connector — line and arrowhead both — would point at
+     nothing. The phone breakpoint turns the grid back into one row and restores them. */
+  .process-grid li:not(:last-child)::after,
+  .process-grid li:not(:last-child)::before {
     display: none;
   }
 }
@@ -3486,9 +3490,8 @@ a.contact-value {
     font-size: 12px;
   }
 
-  /* .guarantees, .process-grid, .quick-grid and .footer-columns each have a rule of their own
-     below. Left in this list they were flattened to one column by a later, blunter selector. */
-  .service-grid,
+  /* .guarantees, .process-grid, .quick-grid, .service-grid and .footer-columns each have a rule of
+     their own below. Left in this list they were flattened to one column by a later, blunter rule. */
   .contact-grid,
   .pricing-detail,
   .faq-grid,
@@ -3499,6 +3502,52 @@ a.contact-value {
   .address-row,
   .spot-card {
     grid-template-columns: 1fr;
+  }
+
+  /* Four price packages, two to a row — a single column pushed Restoration three screens down and
+     buried the cheapest option nobody scrolls to see the others. Trimmed to fit half a phone. */
+  .service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .service-card {
+    min-width: 0;
+    min-height: 0;
+    padding: 14px;
+    gap: 10px;
+    /* The card is itself a grid; its implicit `auto` column grew to the text's max-content and
+       shoved the heading ~30px past the card edge. A 0-min column shrinks to the card instead. */
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .service-card > div {
+    min-width: 0;
+  }
+
+  /* Absolute top-right, the "Most complete" pill sat on top of "Restoration" once the card was
+     half width. In flow, as the card's first row, it sits cleanly above the heading. */
+  .service-card .badge {
+    position: static;
+    justify-self: start;
+  }
+
+  .service-card h3 {
+    font-size: 16px;
+  }
+
+  .service-card .price {
+    font-size: 26px;
+  }
+
+  /* Half-width cards leave the includes list little room; let long lines wrap instead of spilling
+     past the screen edge. */
+  .service-card ul {
+    padding-left: 16px;
+  }
+
+  .service-card li {
+    overflow-wrap: anywhere;
   }
 
   .content-section {
@@ -3625,6 +3674,31 @@ a.contact-value {
     --step-gap: 12px;
   }
 
+  /**
+   * The rail is a single row again, so the connector belongs back — but the icons sit top-left of
+   * 300px cards, too far apart to bridge. Instead each card carries a dashed line from its icon to
+   * its own right edge and an arrowhead in the gap: as you swipe, every card says "→ next".
+   * (The ≤1280 rule above display:none'd both; these re-show them, so they must stay more specific
+   * by living in this later, narrower media block.)
+   */
+  .process-grid li:not(:last-child)::after {
+    display: block;
+    top: 46px;
+    left: 84px;
+    right: 18px;
+    width: auto;
+    clip-path: none;
+  }
+
+  .process-grid li:not(:last-child)::before {
+    display: block;
+    top: 43px;
+    left: auto;
+    right: 5px;
+    margin: 0;
+    opacity: 1;
+  }
+
   /* ---- Drop-off list --------------------------------------------------------------------
      At ≤1100px the map stacks above the list and the list's height cap is released. That is
      fine for four spots and unusable for the ten the site advertises, let alone a hundred:
@@ -3633,7 +3707,10 @@ a.contact-value {
   .spots-side .spot-list {
     max-height: 58vh;
     overflow-y: auto;
-    overscroll-behavior: contain;
+    /* auto, not contain: reaching the bottom of the list hands the scroll back to the page so it
+       keeps going. `contain` trapped the gesture and the page sat still under a finger that had
+       run out of list. */
+    overscroll-behavior-y: auto;
     padding-right: 4px;
     scrollbar-color: rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.06);
     scrollbar-width: thin;
