@@ -35,11 +35,23 @@ const BRAND = {
 /** GST is included in every displayed price. AU rate is 10%, so the component is total / 11. */
 const GST_DIVISOR = 11;
 
+/**
+ * ┌─────────────────────────────────────────────────────────────────────────────────────────┐
+ * │  THE PRICE LIST — the one place any price is edited.                                       │
+ * │                                                                                            │
+ * │  Change a `price` here and it flows everywhere on next load: the package cards, the live   │
+ * │  quote, the booking totals, and the search-engine / AI structured data (seo.js reads       │
+ * │  these same numbers, so Google and the FAQ schema never fall out of step). No price is      │
+ * │  hard-coded in any HTML file. A future admin panel writes to exactly this array.            │
+ * │                                                                                            │
+ * │  Transcribed from the printed price card (info.png). Prices are AUD, per pair, GST-incl.    │
+ * └─────────────────────────────────────────────────────────────────────────────────────────┘
+ */
 const SERVICES = [
   {
     id: "basic",
     name: "Basic Clean",
-    price: 49,
+    price: 55,
     summary: "Everyday sneakers that just need a reset.",
     includes: ["Full exterior clean", "Lace clean"],
     badge: null,
@@ -47,9 +59,9 @@ const SERVICES = [
   {
     id: "deep",
     name: "Deep Clean",
-    price: 65,
+    price: 75,
     summary: "Worn-in pairs where the inside matters too.",
-    includes: ["Everything in Basic Clean", "Insole clean"],
+    includes: ["Everything in Basic Clean", "Insole clean", "Disinfecting"],
     badge: null,
   },
   {
