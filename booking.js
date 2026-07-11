@@ -2,7 +2,13 @@ const { SERVICES, EXTRAS, TURNAROUNDS, DROPOFF_SPOTS, findService, findTurnaroun
   window.KK;
 
 const MAIN_STORE = DROPOFF_SPOTS.find((spot) => spot.mainStore);
-const LAST_STEP = 6;
+
+/**
+ * Two steps, not six. Step 1 holds every choice about the clean — service, extras, turnaround,
+ * drop-off — because each has a safe default and none can block. Step 2 is the details form, and
+ * its forward button confirms rather than continuing.
+ */
+const LAST_STEP = 2;
 
 const params = new URLSearchParams(window.location.search);
 
@@ -247,9 +253,12 @@ function renderSummary() {
   $("[data-summary-total]").textContent = total;
   $("[data-summary-total-mobile]").textContent = total;
   $("[data-summary-gst]").textContent = `Includes ${formatAud(result.gst)} GST`;
+
+  // With the standalone review panel gone, this always-visible note carries the drop-off choice.
+  const spot = DROPOFF_SPOTS.find((s) => s.id === state.spotId);
   $("[data-summary-note]").textContent = result.turnaround.mainStoreOnly
-    ? "Drop-off and pick-up at the main store."
-    : "Includes free home drop off on return.";
+    ? `Drop-off and pick-up at ${spot.name}.`
+    : `Drop off at ${spot.name} — free home delivery on return.`;
 }
 
 function reviewRows() {
@@ -307,11 +316,10 @@ function showStep(step) {
   $("[data-next]").hidden = step === LAST_STEP;
   $("[data-next-mobile]").hidden = step === LAST_STEP;
 
-  if (step === 2) renderExtraChoices();
-  if (step === 4) renderSpotChoices();
-  if (step === 5) renderDetailsStep();
+  // Step 1's choices are all live from load. Only the details step is built on entry: the return
+  // address depends on the turnaround chosen a moment ago, and the form may need prefilling.
   if (step === LAST_STEP) {
-    $("[data-review]").innerHTML = reviewRows();
+    renderDetailsStep();
     $("[data-confirm-error]").textContent = "";
     $("[data-confirm-note]").textContent = window.KKAuth.currentUser()
       ? "This order will be added to your account."
@@ -322,6 +330,9 @@ function showStep(step) {
 }
 
 function showSuccess() {
+  // The details form is the last thing on the page, so Confirm is where it gets validated — there
+  // is no longer a Continue click between the form and here to catch an empty field.
+  if (!validateDetails({ showErrors: true })) return;
   captureDetails();
 
   const auth = window.KKAuth;
@@ -378,16 +389,11 @@ function showSuccess() {
   $('[data-step="done"]').focus();
 }
 
-/** Only step 5 can block progress; every other step always has a valid default selected. */
-function canLeaveStep(step) {
-  if (step !== 5) return true;
-  const valid = validateDetails({ showErrors: true });
-  if (valid) captureDetails();
-  return valid;
-}
-
+/**
+ * Step 1's four choices each carry a valid default, so moving to the details step is never blocked.
+ * The details themselves are checked at Confirm, in showSuccess.
+ */
 function goNext() {
-  if (!canLeaveStep(state.step)) return;
   if (state.step < LAST_STEP) showStep(state.step + 1);
 }
 
@@ -408,6 +414,9 @@ function bindEvents() {
         (id) => !isExtraIncluded(EXTRAS.find((e) => e.id === id), state.serviceId),
       );
       syncSelection("service");
+      // Which extras are now "included" changed, and both grids share step 1. Redraw the extras.
+      // Focus is on the service radio, a different group, so nothing the user is touching is lost.
+      renderExtraChoices();
     }
 
     if (input.name === "extra") {
@@ -421,6 +430,8 @@ function bindEvents() {
       state.turnaroundId = input.value;
       reconcileSpotWithTurnaround();
       syncSelection("turnaround");
+      // A 24-hour order locks every spot but the main store — redraw them with the new constraint.
+      renderSpotChoices();
     }
 
     if (input.name === "spot") {

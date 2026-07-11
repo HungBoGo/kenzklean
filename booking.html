@@ -43,80 +43,82 @@
     <main id="booking" class="booking-shell">
       <div class="booking-main">
         <ol class="stepper" data-stepper aria-label="Booking steps">
-          <li data-step-chip="1"><span>1</span> Service</li>
-          <li data-step-chip="2"><span>2</span> Extras</li>
-          <li data-step-chip="3"><span>3</span> Turnaround</li>
-          <li data-step-chip="4"><span>4</span> Drop-off</li>
-          <li data-step-chip="5"><span>5</span> Details</li>
-          <li data-step-chip="6"><span>6</span> Confirm</li>
+          <li data-step-chip="1"><span>1</span> Your order</li>
+          <li data-step-chip="2"><span>2</span> Your details</li>
         </ol>
 
-        <!-- Step 1 -->
+        <!--
+          Step 1 — the whole order on one page. Six panels became two: the four choices a
+          customer makes about the clean (service, extras, speed, drop-off) have a valid default
+          each and never block, so there is no reason to gate them behind five Continue clicks.
+          The sticky summary on the right keeps the running total in view the whole way down.
+        -->
         <section class="step-panel" data-step="1" aria-labelledby="step1-title">
-          <span class="panel-label">Step 1 of 6</span>
-          <h1 id="step1-title">Choose your cleaning service.</h1>
-          <p class="step-intro">All prices are per pair and include GST.</p>
-
-          <fieldset class="choice-grid" data-service-choices>
-            <legend class="visually-hidden">Cleaning service</legend>
-          </fieldset>
-
-          <label class="pairs-field" for="pairs">
-            How many pairs?
-            <input id="pairs" type="number" min="1" max="20" value="1" inputmode="numeric" />
-          </label>
-        </section>
-
-        <!-- Step 2 -->
-        <section class="step-panel" data-step="2" hidden aria-labelledby="step2-title">
-          <span class="panel-label">Step 2 of 6</span>
-          <h1 id="step2-title">Add extra services.</h1>
+          <span class="panel-label">Step 1 of 2</span>
+          <h1 id="step1-title">Build your order.</h1>
           <p class="step-intro">
-            Optional, priced per pair. Extras already covered by your package are marked as
-            included and are not charged again.
+            Everything on one page. Prices are per pair and include GST — the total on the right
+            updates as you choose.
           </p>
 
-          <fieldset class="choice-grid extras-choices" data-extra-choices>
-            <legend class="visually-hidden">Extra services</legend>
-          </fieldset>
-        </section>
+          <div class="order-section">
+            <h2 class="order-section-title">Cleaning service</h2>
+            <fieldset class="choice-grid" data-service-choices>
+              <legend class="visually-hidden">Cleaning service</legend>
+            </fieldset>
 
-        <!-- Step 3 -->
-        <section class="step-panel" data-step="3" hidden aria-labelledby="step3-title">
-          <span class="panel-label">Step 3 of 6</span>
-          <h1 id="step3-title">How fast do you need them?</h1>
-          <p class="step-intro">Surcharges are per pair.</p>
-
-          <fieldset class="choice-grid" data-turnaround-choices>
-            <legend class="visually-hidden">Turnaround</legend>
-          </fieldset>
-        </section>
-
-        <!-- Step 4 -->
-        <section class="step-panel" data-step="4" hidden aria-labelledby="step4-title">
-          <span class="panel-label">Step 4 of 6</span>
-          <h1 id="step4-title">Where will you drop them off?</h1>
-          <p class="step-intro" data-spot-intro></p>
-
-          <div class="notice" data-rush-notice hidden>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M12 2 1 21h22L12 2Zm0 6 1 7h-2l1-7Zm0 10.5a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4Z" />
-            </svg>
-            <p>
-              You picked the 24-hour turnaround. Those orders must be dropped off and picked up at
-              the main store, so home drop off is not available.
-            </p>
+            <label class="pairs-field" for="pairs">
+              How many pairs?
+              <input id="pairs" type="number" min="1" max="20" value="1" inputmode="numeric" />
+            </label>
           </div>
 
-          <fieldset class="choice-grid spot-choices" data-spot-choices>
-            <legend class="visually-hidden">Drop-off spot</legend>
-          </fieldset>
+          <div class="order-section">
+            <h2 class="order-section-title">Extras <span class="optional">(optional)</span></h2>
+            <p class="order-section-hint">
+              Priced per pair. Extras already covered by your package are marked included and are
+              never charged twice.
+            </p>
+            <fieldset class="choice-grid extras-choices" data-extra-choices>
+              <legend class="visually-hidden">Extra services</legend>
+            </fieldset>
+          </div>
+
+          <div class="order-section">
+            <h2 class="order-section-title">Turnaround</h2>
+            <fieldset class="choice-grid" data-turnaround-choices>
+              <legend class="visually-hidden">Turnaround</legend>
+            </fieldset>
+          </div>
+
+          <div class="order-section">
+            <h2 class="order-section-title">Drop-off</h2>
+            <p class="order-section-hint" data-spot-intro></p>
+
+            <div class="notice" data-rush-notice hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 2 1 21h22L12 2Zm0 6 1 7h-2l1-7Zm0 10.5a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4Z" />
+              </svg>
+              <p>
+                You picked the 24-hour turnaround. Those orders must be dropped off and picked up at
+                the main store, so home drop off is not available.
+              </p>
+            </div>
+
+            <fieldset class="choice-grid spot-choices" data-spot-choices>
+              <legend class="visually-hidden">Drop-off spot</legend>
+            </fieldset>
+          </div>
         </section>
 
-        <!-- Step 5 -->
-        <section class="step-panel" data-step="5" hidden aria-labelledby="step5-title">
-          <span class="panel-label">Step 5 of 6</span>
-          <h1 id="step5-title">Your details.</h1>
+        <!--
+          Step 2 — who you are, then confirm. The old "review everything" panel is gone: the
+          summary beside this form already lists every line and names the drop-off spot, and the
+          details are on this very screen. The forward button here confirms rather than continuing.
+        -->
+        <section class="step-panel" data-step="2" hidden aria-labelledby="step2-title">
+          <span class="panel-label">Step 2 of 2</span>
+          <h1 id="step2-title">Your details.</h1>
           <p class="step-intro" data-details-intro></p>
 
           <p class="signed-in-note" data-signed-in hidden></p>
@@ -173,15 +175,6 @@
               <textarea id="notes" name="notes" placeholder="Brand, colour, material, damage we should know about..."></textarea>
             </label>
           </form>
-        </section>
-
-        <!-- Step 6 -->
-        <section class="step-panel" data-step="6" hidden aria-labelledby="step6-title">
-          <span class="panel-label">Step 6 of 6</span>
-          <h1 id="step6-title">Confirm your booking.</h1>
-          <p class="step-intro">Check everything below, then confirm.</p>
-
-          <dl class="review-list" data-review></dl>
 
           <p class="confirm-note" data-confirm-note></p>
           <p class="lookup-error" role="alert" data-confirm-error></p>

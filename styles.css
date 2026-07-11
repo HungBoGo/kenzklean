@@ -2299,11 +2299,40 @@ a.contact-value {
   color: var(--muted);
 }
 
+/**
+ * Step 1 now stacks four choice groups on one page. Each is a section with a heading and a rule
+ * above it, so the long panel reads as four labelled blocks rather than one undifferentiated wall
+ * of cards.
+ */
+.order-section + .order-section {
+  margin-top: 36px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+
+.order-section-title {
+  margin: 0;
+  font-size: 20px;
+}
+
+.order-section-title .optional {
+  color: var(--fineprint);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.order-section-hint {
+  margin: 6px 0 0;
+  max-width: 620px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
 .choice-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 12px;
-  margin: 24px 0 0;
+  margin: 16px 0 0;
   padding: 0;
   border: 0;
 }
