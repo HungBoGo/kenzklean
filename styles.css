@@ -1212,13 +1212,20 @@ main > section:nth-of-type(even):not(.hero-section) {
   gap: 14px;
 }
 
+/**
+ * Flex column, not grid. `.service-foot` has always carried `margin-top: auto` to pin the button
+ * to the bottom, but in a grid that only centres it inside its own row — the rows were packed to
+ * the top by `align-content: start`, so a card with fewer bullets left its button floating high
+ * and the four buttons never lined up. In a flex column `margin-top: auto` eats the leftover
+ * height and every button sits on the same baseline, on mobile and desktop alike.
+ */
 .service-card {
   position: relative;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 16px;
   min-height: 300px;
   padding: 18px;
-  align-content: start;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025));
@@ -3398,9 +3405,26 @@ a.contact-value {
 }
 
 @media (max-width: 760px) {
+  /**
+   * Book Now stays on a phone. It used to be hidden below 400px to stop the header overflowing —
+   * which meant the main call to action vanished on exactly the devices most people browse from.
+   * The fix is to make it fit: tighter padding, a tighter gap and a compact button, so the
+   * wordmark, the call button and Book Now all sit on one row down to 360px.
+   */
   .site-header {
-    padding: 14px 16px;
+    gap: 8px;
+    padding: 14px 12px;
     padding-top: max(14px, env(safe-area-inset-top));
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .header-actions .primary-button {
+    flex: none;
+    padding: 0 14px;
+    font-size: 13px;
   }
 
   .brand {
@@ -3419,6 +3443,14 @@ a.contact-value {
   .phone-label,
   [data-account-slot] {
     display: none;
+  }
+
+  /* The last 40px: on the narrowest phones the wordmark gives way, not the call to action.
+     The logo still carries the brand, and the page's own h1 says the name. */
+  @media (max-width: 359px) {
+    .brand strong {
+      display: none;
+    }
   }
 
   /* The desktop scrim is tuned for copy on the left half. Full-bleed on a phone it just
@@ -3521,12 +3553,10 @@ a.contact-value {
     min-height: 0;
     padding: 14px;
     gap: 10px;
-    /* The card is itself a grid; its implicit `auto` column grew to the text's max-content and
-       shoved the heading ~30px past the card edge. A 0-min column shrinks to the card instead. */
-    grid-template-columns: minmax(0, 1fr);
   }
 
-  .service-card > div {
+  /* Half-width cards: children must be free to shrink, or a long heading pushes past the edge. */
+  .service-card > * {
     min-width: 0;
   }
 
@@ -3702,6 +3732,45 @@ a.contact-value {
     right: 5px;
     margin: 0;
     opacity: 1;
+  }
+
+  /**
+   * "See extras and turnaround pricing" opens seven rows into a phone screen. At the desktop's
+   * 16-18px padding that panel was two screens tall and most of it landed below the fold the
+   * moment it expanded. Tightened here — the rows stay 44px tappable, the air between them goes.
+   */
+  .pricing-disclosure {
+    margin-top: 20px;
+  }
+
+  .pricing-disclosure summary {
+    padding: 12px 14px;
+  }
+
+  .pricing-detail {
+    gap: 14px;
+    padding: 4px 14px 16px;
+  }
+
+  .pricing-block h3 {
+    margin: 10px 0 2px;
+    font-size: 17px;
+  }
+
+  .pricing-block .fineprint {
+    margin: 0 0 10px;
+    font-size: 12px;
+  }
+
+  .extras-list,
+  .turnaround-list {
+    gap: 6px;
+  }
+
+  .extra-row,
+  .turnaround-row {
+    padding: 9px 12px;
+    gap: 2px 12px;
   }
 
   /* ---- Drop-off list --------------------------------------------------------------------
@@ -4017,20 +4086,6 @@ a.contact-value {
   stroke-width: 2.2;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-
-/**
- * Below ~400px the wordmark (158px), the call button and "Book Now" (173px together) and the
- * header's own padding (32px) add up to 379px and the page scrolls sideways.
- *
- * "Book Now" is the one to drop: the fixed bottom nav carries "Book" on every page that has one,
- * one tap away and always on screen, which a header button that scrolls off the top is not. On
- * booking.html there is no bottom nav — and no need for the button, because you are already there.
- */
-@media (max-width: 400px) {
-  .header-actions .primary-button {
-    display: none;
-  }
 }
 
 @media (max-width: 460px) {
