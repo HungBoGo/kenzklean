@@ -24,9 +24,15 @@ const { SERVICES, EXTRAS } = KK;
 const prices = SERVICES.map((s) => s.price);
 const priceRange = `$${Math.min(...prices)}–$${Math.max(...prices)} AUD`;
 
-/** "A Basic Clean is $55, Deep Clean $75, ... Extras like sole protection ($40) ...". */
+/** "A Basic Clean is $55, an Ultimate Clean $95 ... Extras like sole protection ($40) ...". */
+const article = (word) => (/^[aeiou]/i.test(word) ? "an" : "a");
 const pricingSentence = () => {
-  const pkgs = SERVICES.map((s) => `${s.name} $${s.price}`).join(", ").replace(/, ([^,]*)$/, " and $1");
+  const pkgs = SERVICES.map((s, i) => {
+    const art = i === 0 ? article(s.name).replace(/^\w/, (m) => m.toUpperCase()) : article(s.name);
+    return i === 0 ? `${art} ${s.name} is $${s.price}` : `${art} ${s.name} $${s.price}`;
+  })
+    .join(", ")
+    .replace(/, ([^,]*)$/, " and $1");
   const extras = EXTRAS.map((e) => `${e.name.toLowerCase()} ($${e.price})`).join(", ");
   return `${pkgs} — all per pair and GST inclusive. Extras like ${extras} can be added to any clean.`;
 };
@@ -131,7 +137,7 @@ const faq = {
   "@id": `${SITE}/#faq`,
   mainEntity: [
     q("Where can I get my sneakers cleaned in Melbourne?", "KENZ KLEAN cleans and restores sneakers in Melbourne. Drop your shoes at any drop-off location — the main store at 163 Barkly St, Footscray, plus partner spots in Sunshine West and St Albans — or book online and we return them free to your door in 3–5 business days."),
-    q("How much does sneaker cleaning cost?", `A ${pricingSentence()}`),
+    q("How much does sneaker cleaning cost?", pricingSentence()),
     q("Do you guarantee my shoes won't be damaged?", "Yes. Every pair is cleaned to the material with eco-friendly, baby-safe products, photographed before and after so the condition is documented, and covered by a damage guarantee — if we damage your sneakers, we make it right."),
     q("What products do you clean sneakers with?", "Eco-friendly, baby-safe products. Each material — leather, mesh, suede, nubuck, canvas — gets a treatment matched to it, so nothing is stripped or discoloured."),
     q("How long does sneaker cleaning take?", "Standard turnaround is 3–5 business days with free return delivery. Express is 2–3 business days for $10 per pair, and a 24-hour turnaround is $20 per pair (drop-off and pick-up at the Footscray main store)."),

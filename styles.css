@@ -2037,6 +2037,11 @@ main > section:nth-of-type(even):not(.hero-section) {
 }
 
 .faq-contact-list a {
+  display: inline-flex;
+  align-items: center;
+  /* Match the footer's contact links: a phone/email you tap needs the full 44px target, not the
+     21px the bare text gave it. */
+  min-height: var(--tap);
   color: var(--text);
   overflow-wrap: anywhere;
 }
