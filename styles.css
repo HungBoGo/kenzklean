@@ -279,6 +279,18 @@ h3 {
 
 /* ---------------- Buttons ---------------- */
 
+/**
+ * `display: inline-flex` below (0,1,0) outranks the user-agent's `[hidden] { display: none }`, so
+ * setting `.hidden = true` on a button set the property and changed nothing on screen — which is
+ * how "Continue" survived next to "Confirm Booking" on the last booking step. Any element whose
+ * base rule sets `display` has to hand `[hidden]` back its meaning.
+ */
+.primary-button[hidden],
+.secondary-button[hidden],
+.ghost-button[hidden] {
+  display: none;
+}
+
 .primary-button,
 .secondary-button,
 .ghost-button {
@@ -2590,9 +2602,6 @@ a.contact-value {
   font-weight: 700;
 }
 
-.confirm-actions {
-  max-width: 420px;
-}
 
 .step-nav {
   display: flex;
@@ -3353,8 +3362,10 @@ a.contact-value {
 }
 
 @media (max-width: 900px) {
-  /* Below this width the sticky bar owns the primary action, so the inline one would duplicate it. */
-  .step-nav [data-next] {
+  /* Below this width the sticky bar owns the primary action — Continue on step 1, Confirm on
+     step 2 — so the inline twin of whichever it is would just duplicate it. */
+  .step-nav [data-next],
+  .step-nav [data-confirm] {
     display: none;
   }
 

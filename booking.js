@@ -312,9 +312,13 @@ function showStep(step) {
     }
   });
 
+  // One forward button per step. Continue carries you to the details; Confirm places the order.
+  const onLastStep = step === LAST_STEP;
   $("[data-back]").disabled = step === 1;
-  $("[data-next]").hidden = step === LAST_STEP;
-  $("[data-next-mobile]").hidden = step === LAST_STEP;
+  $("[data-next]").hidden = onLastStep;
+  $("[data-next-mobile]").hidden = onLastStep;
+  $("[data-confirm]").hidden = !onLastStep;
+  $("[data-confirm-mobile]").hidden = !onLastStep;
 
   // Step 1's choices are all live from load. Only the details step is built on entry: the return
   // address depends on the turnaround chosen a moment ago, and the form may need prefilling.
@@ -460,6 +464,7 @@ function bindEvents() {
   $("[data-next-mobile]").addEventListener("click", goNext);
   $("[data-back]").addEventListener("click", goBack);
   $("[data-confirm]").addEventListener("click", showSuccess);
+  $("[data-confirm-mobile]").addEventListener("click", showSuccess);
 }
 
 reconcileSpotWithTurnaround();

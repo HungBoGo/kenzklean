@@ -188,12 +188,13 @@
             </label>
           </form>
 
+          <!--
+            No Confirm button here. There is exactly one forward action on the page and it lives in
+            the nav below, where Continue was — two primary buttons doing the same job, one above
+            the other, is a coin toss the customer should never have to make.
+          -->
           <p class="confirm-note" data-confirm-note></p>
           <p class="lookup-error" role="alert" data-confirm-error></p>
-
-          <div class="confirm-actions">
-            <button class="primary-button large full" type="button" data-confirm>Confirm Booking</button>
-          </div>
         </section>
 
         <!-- Success -->
@@ -216,9 +217,15 @@
           </div>
         </section>
 
+        <!--
+          One forward button, whichever step you are on: Continue on step 1, Confirm Booking on
+          step 2. They are two elements rather than one relabelled button so each keeps a static
+          label, which is what buttons.js needs to build its hover twin.
+        -->
         <nav class="step-nav" data-step-nav aria-label="Booking navigation">
           <button class="secondary-button" type="button" data-back>Back</button>
           <button class="primary-button" type="button" data-next>Continue</button>
+          <button class="primary-button" type="button" data-confirm hidden>Confirm Booking</button>
         </nav>
       </div>
 
@@ -336,6 +343,7 @@
         <strong data-summary-total-mobile>$55.00</strong>
       </div>
       <button class="primary-button" type="button" data-next-mobile>Continue</button>
+      <button class="primary-button" type="button" data-confirm-mobile hidden>Confirm Booking</button>
     </div>
     <script src="data.js"></script>
     <script src="auth.js"></script>
